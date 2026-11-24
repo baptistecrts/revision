@@ -1,5 +1,5 @@
 // Service worker : l'app marche hors ligne après la première visite.
-const CACHE = "revision-v1";
+const CACHE = "revision-v2";
 const CORE = ["./", "index.html", "manifest.webmanifest", "icons/icon.svg", "icons/icon-192.png", "icons/icon-512.png"];
 
 self.addEventListener("install", e => {

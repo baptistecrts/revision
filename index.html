@@ -143,6 +143,27 @@ tr.crit td:first-child{color:var(--y);font-weight:700}
 .sum{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}
 .sum div{background:#0d1840;border-radius:10px;padding:10px}
 .sum b{font-family:"Red Hat Display";font-size:22px}
+.letters{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:16px 0}
+@media(max-width:760px){.letters{grid-template-columns:minmax(0,1fr)}}
+.letter{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px}
+.letter b{font-family:"Red Hat Display";font-size:46px;line-height:1;color:var(--y);display:block}
+.letter h3{margin:.3em 0 .3em;font-size:18px}
+.letter p{font-size:15px;margin:0 0 .4em}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.chips button{min-width:48px;padding:8px 12px}
+.chips button.on{background:var(--t);color:#0b1433;border-color:var(--t)}
+.chips button.good{background:#163d4a;border-color:var(--ok);color:var(--ink)}
+.chips button.bad{background:#4a1f2a;border-color:var(--ko);color:var(--ink)}
+.sq{display:grid;gap:12px}
+.sq .panel p.o{font-size:18px;font-weight:500;margin:0}
+.step summary{display:flex;gap:12px;align-items:center}
+.sn{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--panel2);border:1px solid var(--line);font-size:16px}
+.sn.done{background:var(--t);color:#0b1433;border-color:var(--t)}
+.kv{display:grid;grid-template-columns:9em minmax(0,1fr);gap:8px 16px;margin:10px 0 14px}
+.kv>span.mute{font-size:14px;padding-top:2px}
+.kv ul{margin:0;padding-left:1.1em}
+@media(max-width:600px){.kv{grid-template-columns:minmax(0,1fr);gap:2px}.kv>span.mute{margin-top:8px}}
+pre.sk{background:#0d1840;border:1px solid var(--line);border-radius:10px;padding:14px 16px;white-space:pre-wrap;font:15px/1.6 "Red Hat Text",sans-serif;margin:10px 0}
 .timer{font-family:"Red Hat Display";font-weight:800;font-size:clamp(52px,10vw,88px);line-height:1;font-variant-numeric:tabular-nums}
 @media(max-width:600px){table{font-size:13px}th,td{padding:6px 5px}.stack thead{display:none}.stack tr{display:grid;padding-block:8px;border-bottom:1px solid var(--line)}.stack td{border:0;display:grid;grid-template-columns:7.2em minmax(0,1fr);gap:8px;padding:3px 0}.stack td::before{content:attr(data-l);color:var(--mute);font-size:13px}}
 @media(prefers-reduced-motion:no-preference){.card{transition:transform .25s}.card:active{transform:scale(.985)}}
@@ -150,7 +171,7 @@ tr.crit td:first-child{color:var(--y);font-weight:700}
 </head>
 <body>
 <nav><div class="scroll" id="tabs">
-<a href="#plan">Plan 2 h</a><a href="#cours">Cours</a><a href="#cartes">Flashcards</a><a href="#quiz">Quiz</a><a href="#planning">Chemin critique</a><a href="#risques">Analyse de risque</a><a href="#examen">Sujet blanc</a>
+<a href="#plan">Plan 2 h</a><a href="#cours">Cours</a><a href="#pmp">PMP</a><a href="#smart">SMART</a><a href="#cartes">Flashcards</a><a href="#quiz">Quiz</a><a href="#planning">Chemin critique</a><a href="#risques">Analyse de risque</a><a href="#examen">Sujet blanc</a>
 </div></nav>
 
 <!-- ============ PLAN ============ -->
@@ -194,7 +215,7 @@ tr.crit td:first-child{color:var(--y);font-weight:700}
 <section class="view" id="v-cours">
 <div class="band"><div class="wrap">
 <h1>Le cours, en version utile pour l'examen</h1>
-<div class="toc"><a href="#cours" data-go="c-charter">Charte projet</a><a href="#cours" data-go="c-wbs">WBS et RACI</a><a href="#cours" data-go="c-time">Planning</a><a href="#cours" data-go="c-risk">Analyse de risque</a></div>
+<div class="toc"><a href="#cours" data-go="c-charter">Charte projet</a><a href="#cours" data-go="c-wbs">WBS et RACI</a><a href="#cours" data-go="c-time">Planning</a><a href="#cours" data-go="c-risk">Analyse de risque</a><a href="#pmp">Rédiger un PMP</a><a href="#smart">Objectifs SMART</a></div>
 
 <h2 id="c-charter" style="margin-top:28px">Charte projet : une page qui dit pourquoi, quoi, qui, quand, combien</h2>
 <p>Le project charter autorise officiellement le projet et donne son autorité au chef de projet. Il est validé, idéalement signé, par le sponsor. À l'examen, fais un tableau : rubrique, contenu, valeurs tirées du sujet.</p>
@@ -309,6 +330,59 @@ Chemin critique = tâches à marge totale nulle = plus long chemin
 </div></div>
 </section>
 
+<!-- ============ PMP ============ -->
+<section class="view" id="v-pmp">
+<div class="band"><div class="wrap">
+<h1>Rédiger un PMP, étape par étape</h1>
+<p class="lead">Le PMP (Project Management Plan, plan de management de projet) dit comment le projet sera mené, suivi, maîtrisé et clôturé. La charte autorise le projet, le PMP l'organise et fixe les trois références : périmètre, délai et coût.</p>
+<div class="grid2">
+<div class="scroll"><table>
+<thead><tr><th></th><th>Charte projet</th><th>PMP</th></tr></thead>
+<tbody>
+<tr><td class="mute">Rôle</td><td>Autoriser le projet, nommer le chef de projet</td><td>Dire comment on va le réaliser et le piloter</td></tr>
+<tr><td class="mute">Quand</td><td>Au lancement, avant tout</td><td>Juste après, pendant la planification</td></tr>
+<tr><td class="mute">Niveau</td><td>Haut niveau, 1 à 3 pages</td><td>Détaillé, avec un plan par domaine</td></tr>
+<tr><td class="mute">Validé par</td><td>Le sponsor</td><td>Le sponsor ou le comité de pilotage</td></tr>
+<tr><td class="mute">Vie</td><td>Change rarement</td><td>Document vivant, mis à jour par le processus de changement</td></tr>
+</tbody></table></div>
+<div class="panel">
+<h3 style="margin-top:0">Ta progression sur les 13 étapes</h3>
+<div class="meter"><div id="pmpMeter"></div></div>
+<p class="small mute" id="pmpInfo"></p>
+<p class="small">Ouvre chaque étape, lis l'exemple, puis essaie de l'écrire de tête pour le sujet blanc. Clique sur « Je sais le faire » quand c'est acquis.</p>
+<p class="small mute" style="margin:0">Exemples tirés du sujet blanc Aéromeca (fictif). Les montants détaillés du budget sont inventés.</p>
+</div>
+</div>
+<div id="pmpSteps" style="margin-top:18px"></div>
+
+<h2 style="margin-top:32px">Le squelette à recopier le jour J</h2>
+<p class="mute">Un titre par étape, un tableau par rubrique dès que possible, et des chiffres tirés du sujet. Si le temps manque, garde en priorité objectifs, périmètre, WBS, planning, budget et risques.</p>
+<pre class="sk" id="pmpSk"></pre>
+<div class="row"><button id="pmpCopy">Copier le squelette</button><span class="small mute" id="pmpCopyMsg"></span></div>
+</div></div>
+</section>
+
+<!-- ============ SMART ============ -->
+<section class="view" id="v-smart">
+<div class="band"><div class="wrap">
+<h1>Objectifs SMART</h1>
+<p class="lead">Un objectif SMART se vérifie lettre par lettre. Il apparaît dans la charte et dans la première partie du PMP, et c'est sur lui qu'on juge la réussite du projet à la clôture.</p>
+<div class="letters" id="letters"></div>
+<div class="warn"><b>La méthode en 1 phrase :</b> verbe d'action + quoi + pour qui ou où + indicateur et valeur cible (depuis une valeur de départ) + date. Exemple : « Réduire de 10 à 7 jours la clôture comptable mensuelle sur les 2 sites d'ici le 31 décembre 2027. »</div>
+<h2 style="margin-top:28px">Avant / après</h2>
+<div class="scroll"><table class="stack">
+<thead><tr><th>Pas SMART</th><th>Ce qui manque</th><th>Version SMART</th></tr></thead>
+<tbody id="smartBA"></tbody></table></div>
+<p class="small mute" style="margin-top:8px">Selon les cours, A peut vouloir dire Atteignable, Acceptable ou Ambitieux, et R Réaliste ou Pertinent. Ici : A = atteignable avec les moyens du projet, R = pertinent par rapport à l'enjeu du projet. Annonce ta convention en une ligne dans ta copie.</p>
+
+<h2 style="margin-top:28px">Exercice : quelles lettres manquent ?</h2>
+<p class="mute">Sélectionne les lettres qui ne sont pas respectées (ou « Aucune »), puis vérifie. La version corrigée s'affiche après.</p>
+<p class="msg" id="smScore"></p>
+<div class="sq" id="smartEx"></div>
+<div class="row" style="margin-top:12px"><button id="smReset">Recommencer l'exercice</button></div>
+</div></div>
+</section>
+
 <!-- ============ FLASHCARDS ============ -->
 <section class="view" id="v-cartes">
 <div class="band"><div class="wrap" style="max-width:820px">
@@ -411,6 +485,7 @@ Chemin critique = tâches à marge totale nulle = plus long chemin
 <li>Proposer un plan de traitement et re-coter.</li>
 <li>Présenter les matrices avant et après, et le dispositif de suivi.</li>
 </ol>
+<p class="small mute">Variante possible : « Rédigez les grandes lignes du PMP ». L'onglet <a href="#pmp">PMP</a> donne chaque étape avec la réponse sur ce sujet.</p>
 </div>
 <div>
 <div class="panel sticky">
@@ -458,7 +533,7 @@ const ZC=["","#3b4fd8","#4fc1c6","#f7e463","#e8452c"];
 const SEGS=[[10,"Lecture, surligner dates, budget, acteurs, contraintes","#6b77a8"],[15,"Charte projet","#4fc1c6"],[15,"WBS + RACI si le temps","#4fc1c6"],[25,"Planning : réseau, chemin critique, Gantt","#4fc1c6"],[20,"Risques : identifier, échelles, coter, matrice avant","#f7e463"],[25,"Risques : traiter, re-noter, matrice après, suivi","#e8452c"],[10,"Relecture et cohérence (WBS ↔ planning ↔ risques)","#6b77a8"]];
 {let t=0;$("#bar").innerHTML=SEGS.map(s=>`<div style="width:${s[0]/1.2}%;background:${s[2]}" title="${esc(s[1])}">${s[0]}′</div>`).join("");
 $("#legend").innerHTML=SEGS.map(s=>{const a=t;t+=s[0];return `<li><i style="background:${s[2]}"></i><time>${a}–${t} min</time><span>${esc(s[1])}</span></li>`}).join("");}
-const CHK1=["Charte : contexte, objectifs SMART, périmètre inclus et exclu","Charte : livrables, parties prenantes, sponsor, gouvernance","Charte : jalons, budget, contraintes, hypothèses, top risques, critères de succès","WBS orienté livrables, 3 niveaux, codifié 1.1.1","Branche « Management de projet », règle des 100 % respectée","Liste des tâches avec durées et antécédents","Réseau avec dates au plus tôt, au plus tard et marges","Chemin critique identifié, durée comparée à l'échéance","Gantt avec jalons et dates réelles (congés, fermetures)"];
+const CHK1=["Charte : contexte, objectifs SMART (chaque lettre vérifiable), périmètre inclus et exclu","Charte : livrables, parties prenantes, sponsor, gouvernance","Charte : jalons, budget, contraintes, hypothèses, top risques, critères de succès","WBS orienté livrables, 3 niveaux, codifié 1.1.1","Branche « Management de projet », règle des 100 % respectée","Liste des tâches avec durées et antécédents","Réseau avec dates au plus tôt, au plus tard et marges","Chemin critique identifié, durée comparée à l'échéance","Gantt avec jalons et dates réelles (congés, fermetures)"];
 const CHK2=["Échelles de probabilité et de gravité avec seuils chiffrés","6 à 10 risques formulés cause → événement → conséquence","Risques reliés aux lots du WBS et aux tâches critiques","Criticité P × G et matrice avant traitement","Pour chaque risque important : stratégie et action concrète","Responsable, échéance et coût de chaque action","Re-cotation P' × G' et matrice après traitement","Contingence et déclencheur pour les risques qui restent","Suivi : revue en comité, indicateurs, coût total vs réserve"];
 const renderChk=(id,arr,p)=>{$(id).innerHTML=arr.map((t,i)=>`<li><input type="checkbox" id="${p}${i}" ${S.chk[p+i]?"checked":""}><label for="${p}${i}">${esc(t)}</label></li>`).join("")};
 renderChk("#chk1",CHK1,"a");renderChk("#chk2",CHK2,"b");
@@ -467,8 +542,20 @@ document.addEventListener("change",e=>{if(e.target.matches("ul.chk input")){S.ch
 /* ---------- DATA ---------- */
 const FC=[
 ["c","Project charter : à quoi sert-il ?","Il autorise officiellement le projet et donne son autorité au chef de projet. Il dit pourquoi (contexte, objectifs), quoi (périmètre, livrables), qui (sponsor, chef de projet, parties prenantes), quand (jalons), combien (budget) et avec quelles limites (contraintes, hypothèses, risques majeurs). Validé par le sponsor."],
-["c","Objectif SMART ?","Spécifique, Mesurable, Atteignable, Réaliste, Temporellement défini. Ex : « ERP en service sur les 2 sites le 1er septembre 2027, sans interruption de facturation de plus d'un jour »."],
+["m","Objectif SMART ?","Spécifique, Mesurable, Atteignable, Réaliste, Temporellement défini. Ex : « ERP en service sur les 2 sites le 1er septembre 2027, sans interruption de facturation de plus d'un jour »."],
 ["c","Pourquoi écrire ce qui est hors périmètre ?","Lister explicitement les exclusions évite la dérive du périmètre (scope creep) et les malentendus avec le client."],
+["m","PMP ?","Project Management Plan : il décrit comment le projet sera exécuté, suivi, maîtrisé et clôturé. Il regroupe les plans par domaine (périmètre, planning, coûts, qualité, ressources, communication, risques, achats, parties prenantes) et les références. C'est un document vivant."],
+["m","Charte ou PMP ?","La charte autorise le projet, à haut niveau, et nomme le chef de projet. Le PMP vient après : il détaille comment on réalise et pilote le projet."],
+["m","Les étapes d'un PMP, dans l'ordre ?","Cadrer (objectifs SMART) · Périmètre · Parties prenantes et organisation · Gouvernance · WBS · Planning · Ressources et budget · Qualité · Communication · Risques · Changements · Suivi et pilotage · Clôture."],
+["m","Les 3 références (baselines) du PMP ?","Périmètre (WBS + dictionnaire), délai (planning validé), coût (budget par lot, dans le temps). On mesure les écarts par rapport à elles."],
+["m","Vérifier un objectif SMART ?","Une question par lettre. S : quoi exactement, pour qui ? M : quel indicateur, quelle cible chiffrée ? A : avec quels moyens, accepté par qui ? R : lié à l'enjeu du projet ? T : quelle date ?"],
+["m","Matrice pouvoir / intérêt ?","Fort pouvoir, fort intérêt : gérer étroitement. Fort pouvoir, faible intérêt : tenir satisfait. Faible pouvoir, fort intérêt : tenir informé. Faible pouvoir, faible intérêt : surveiller."],
+["m","Plan de communication : les colonnes ?","Cible · message ou objet · fréquence · canal ou format · émetteur ou responsable · support produit (compte rendu, tableau de bord)."],
+["m","Processus de gestion des changements ?","Demande écrite → analyse d'impact (délai, coût, qualité, risques) → décision en comité (CCB ou COPIL) → mise à jour des références et du PMP → communication."],
+["m","EVM : PV, EV, AC ?","PV : valeur planifiée (budget du travail prévu à date). EV : valeur acquise (budget du travail réellement fait). AC : coût réel du travail fait."],
+["m","SPI et CPI ?","SPI = EV / PV : moins de 1 = retard. CPI = EV / AC : moins de 1 = dépassement de coût. Plus de 1 = en avance ou sous le budget."],
+["m","Réserve pour aléas ou réserve de management ?","Réserve pour aléas (contingence) : pour les risques identifiés, gérée par le chef de projet. Réserve de management : pour les imprévus non identifiés, gérée par le sponsor, hors baseline coût."],
+["m","Que contient la clôture ?","PV de réception signé, bilan (délai, coût, qualité, objectifs SMART atteints ?), retour d'expérience, archivage, libération des ressources, clôture des contrats."],
 ["c","Contrainte ou hypothèse ?","Contrainte : limite imposée (budget, date, norme). Hypothèse : ce qu'on suppose vrai sans preuve (« les key users seront disponibles »). Chaque hypothèse est un risque potentiel."],
 ["c","Critères de succès ?","Comment on saura que le projet a réussi : délai tenu, budget tenu, indicateurs métier (taux d'adoption, erreurs, satisfaction)."],
 ["c","WBS ?","Work Breakdown Structure : décomposition hiérarchique, orientée livrables, de tout le travail du projet. Il dit quoi, pas quand."],
@@ -505,6 +592,16 @@ const FC=[
 ["r","Et les opportunités ?","Risques positifs : exploiter, améliorer, partager, accepter."]
 ];
 const QZ=[
+["Quelle est la différence entre la charte et le PMP ?",["La charte autorise le projet à haut niveau ; le PMP détaille comment il sera mené, suivi et clôturé","C'est le même document sous deux noms","Le PMP est rédigé avant la charte","La charte contient le planning détaillé"],"La charte lance le projet. Le PMP l'organise et fixe les références périmètre, délai, coût."],
+["Les trois références (baselines) d'un PMP sont…",["périmètre, délai, coût","risques, qualité, communication","WBS, RACI, Gantt","charte, PMP, PV de recette"],"On mesure tous les écarts par rapport à ces trois références."],
+["Dans SMART, que veut dire le T ?",["Temporellement défini : une échéance précise","Technique","Testé","Transversal"],"Sans date, impossible de dire si l'objectif est atteint."],
+["« Former les utilisateurs à l'ERP avant le 1er septembre 2027. » Quelle lettre manque ?",["M : combien d'utilisateurs, quel niveau, comment on le vérifie","T","S","Aucune"],"Version SMART : « 100 % des 120 utilisateurs formés (2 jours) et 80 % de réussite au quiz final avant le 25 août 2027 »."],
+["« ERP en service sur les 2 sites dans 4 semaines, sans aucun bug, pour 50 k€. » Le problème ?",["A : ce n'est pas atteignable avec ces délais et ces moyens","T : il manque une date","S : on ne sait pas de quoi on parle","Rien, c'est ambitieux donc bien"],"Le chemin critique fait 27 semaines et le budget 420 k€ : l'objectif est irréaliste."],
+["Une partie prenante à fort pouvoir mais faible intérêt doit être…",["tenue satisfaite","gérée étroitement","seulement surveillée","tenue informée"],"Elle peut bloquer le projet : on répond à ses attentes sans la surcharger d'informations."],
+["En cours de projet, le client demande une fonction en plus. Le PMP prévoit…",["une demande de changement, une analyse d'impact puis une décision en comité","de l'ajouter tout de suite pour faire plaisir","de la refuser systématiquement","de la noter pour le bilan de clôture"],"Sinon c'est la dérive du périmètre : délai et coût glissent sans décision."],
+["À S13 : PV = 200 k€, EV = 170 k€, AC = 190 k€. Diagnostic ?",["En retard (SPI 0,85) et au-dessus du budget (CPI 0,89)","En avance et sous le budget","En retard mais sous le budget","À l'heure et au-dessus du budget"],"SPI = 170 / 200 = 0,85 et CPI = 170 / 190 ≈ 0,89 : les deux sont sous 1."],
+["Réserve pour aléas et réserve de management :",["la première couvre les risques identifiés, la seconde les imprévus non identifiés","c'est la même chose","la première est gérée par le sponsor, la seconde par le chef de projet","la seconde sert à payer les actions de traitement des risques"],"La réserve pour aléas se dimensionne à partir du registre des risques."],
+["Quelle étape du PMP fixe qui décide quoi, dans quel comité et à quelle fréquence ?",["La gouvernance","Le WBS","La qualité","La clôture"],"Comité de pilotage (décide), comité projet (suit), circuit d'escalade."],
 ["Quel document autorise officiellement le projet et donne son autorité au chef de projet ?",["La charte projet","Le WBS","Le Gantt","Le registre des risques"],"La charte (project charter), validée par le sponsor, lance officiellement le projet."],
 ["Un WBS est organisé autour…",["des livrables","de la chronologie","des acteurs","des coûts"],"Le WBS décompose le travail en livrables. L'ordre vient du planning, les acteurs de l'OBS."],
 ["La règle des 100 % signifie que…",["les enfants couvrent tout le travail du parent, rien de plus, rien de moins","100 % du budget doit être dépensé","un lot doit être fini à 100 % avant le suivant","toutes les parties prenantes valident le WBS"],"C'est une règle de complétude du découpage, sans lien avec le budget ou le temps."],
@@ -558,10 +655,10 @@ $("#erpCharter").innerHTML=ERPCH.map(r=>`<tr><td data-l="Rubrique"><b>${esc(r[0]
 $("#erpRisk").innerHTML=RFULL.map((r,i)=>{const c1=r.p*r.g,c2=r.p2*r.g2;return `<tr><td data-l="Risque"><b>R${i+1}</b> ${esc(r.t)}</td><td data-l="Avant" class="n"><span class="zone z${zoneOf(c1)}">${r.p}×${r.g} = ${c1}</span></td><td data-l="Traitement"><b>${esc(r.s)}</b> : ${esc(r.a)} · ${esc(r.o)} · ${r.c} k€</td><td data-l="Après" class="n"><span class="zone z${zoneOf(c2)}">${r.p2}×${r.g2} = ${c2}</span></td></tr>`}).join("");
 
 /* ---------- FLASHCARDS ---------- */
-const DECKS=[["all","Toutes"],["c","Charte et WBS"],["p","Planning"],["r","Risques"],["todo","À revoir"]];
+const DECKS=[["all","Toutes"],["m","PMP et SMART"],["c","Charte et WBS"],["p","Planning"],["r","Risques"],["todo","À revoir"]];
 const FS={deck:"all",i:0,back:false};
 const fcList=()=>FC.map((c,i)=>i).filter(i=>FS.deck==="all"?true:FS.deck==="todo"?S.known[i]!==1:FC[i][0]===FS.deck);
-const TAGN={c:"Charte et WBS",p:"Planning",r:"Analyse de risque"};
+const TAGN={m:"PMP et SMART",c:"Charte et WBS",p:"Planning",r:"Analyse de risque"};
 function renderFC(){
 $("#deck").innerHTML=DECKS.map(d=>`<button data-d="${d[0]}" class="${FS.deck===d[0]?"on":""}">${d[1]}</button>`).join("");
 const L=fcList(),known=FC.filter((c,i)=>S.known[i]===1).length;
@@ -758,6 +855,83 @@ $("#rSum").innerHTML=`<div><span class="small mute">Critiques + importants</span
 const matRO=new ResizeObserver(()=>renderMat());matRO.observe($("#mat"));
 renderCards();
 
+
+/* ---------- PMP ---------- */
+const PMP=[
+{t:"Cadrer : contexte, enjeux, objectifs SMART",why:"On repart de la charte et on la précise : pourquoi le projet existe et comment on saura qu'il a réussi.",w:["Contexte et problème à résoudre","Enjeux (business, délai imposé, image)","2 ou 3 objectifs SMART","Contraintes et hypothèses"],tool:"Charte projet, grille SMART",ex:"Logiciel de 2009 en fin de vie, pic de commandes en octobre. Objectif : ERP en service sur Colomiers et Figeac le 1er septembre 2027, budget de 420 k€ tenu, moins de 1 % d'erreurs sur les stocks repris.",trap:"Recopier la charte mot pour mot, ou écrire des objectifs non mesurables."},
+{t:"Définir le périmètre et les livrables",why:"Fixer précisément ce qui est fait et ce qui ne l'est pas, pour éviter la dérive du périmètre.",w:["Inclus et exclu, explicitement","Livrables finaux et intermédiaires","Exigences principales","Critères d'acceptation de chaque livrable"],tool:"Énoncé du périmètre, cahier des charges",ex:"Inclus : achats, stocks, production, comptabilité, reprise des données, formation. Exclu : paie, évolutions après démarrage. Livrable « solution recettée » accepté si 90 % des scénarios passent sans anomalie bloquante.",trap:"Oublier les exclusions ou confondre livrable et tâche."},
+{t:"Identifier les parties prenantes et l'organisation",why:"Savoir qui est concerné, qui peut bloquer, et qui fait quoi dans l'équipe.",w:["Liste des parties prenantes avec attentes et influence","Matrice pouvoir / intérêt et stratégie pour chacune","Organigramme projet (OBS)","Rôles et responsabilités (RACI sur les lots)"],tool:"Registre des parties prenantes, matrice pouvoir / intérêt, OBS, RACI",ex:"DG (sponsor) : fort pouvoir, fort intérêt, à gérer étroitement. Opérateurs de Figeac : faible pouvoir, fort intérêt, à tenir informés et à impliquer (ils ont rejeté un logiciel en 2023). Prestataire de paie : à surveiller.",trap:"Ne lister que l'équipe projet et oublier les utilisateurs, les fournisseurs ou les représentants du personnel."},
+{t:"Définir la gouvernance",why:"Dire qui décide quoi, où, et comment on remonte un problème.",w:["Comités : composition, rôle, fréquence","Circuit de décision et d'escalade","Délégations du chef de projet (ce qu'il décide seul)"],tool:"Tableau des instances",ex:"Comité de pilotage mensuel (DG, DSI, responsables de service) : décide budget, go/no-go, changements. Comité projet hebdomadaire (DSI, key users, intégrateur) : avancement, actions, risques. Escalade au sponsor sous 48 h si un jalon glisse de plus d'une semaine.",trap:"Des comités sans rôle de décision clair."},
+{t:"Construire le WBS et son dictionnaire",why:"Découper tout le travail en lots estimables : c'est la référence de périmètre.",w:["WBS orienté livrables, 3 niveaux, codifié","Branche Management de projet","Dictionnaire : une fiche par lot (description, responsable, durée, coût, critère d'acceptation)"],tool:"WBS, dictionnaire du WBS",ex:"1.1 Management de projet · 1.2 Besoins exprimés · 1.3 Intégrateur sélectionné · 1.4 Solution paramétrée · 1.5 Données reprises · 1.6 Solution recettée · 1.7 Utilisateurs formés · 1.8 Démarrage.",trap:"Mettre de l'ordre ou des dépendances dans le WBS, ou y laisser la paie (hors périmètre)."},
+{t:"Établir le planning",why:"Ordonner les lots, trouver le chemin critique et vérifier que l'échéance tient : c'est la référence de délai.",w:["Tâches, durées, antécédents","Réseau PERT, marges, chemin critique","Gantt avec dates réelles et jalons","Marge projet par rapport à l'échéance"],tool:"Réseau PERT, Gantt, liste des jalons",ex:"Chemin critique A → B → D → F → G → I, 27 semaines, fin le 9 juillet 2027. Environ 4 semaines de marge utile avant le 1er septembre, fermeture d'août déduite.",trap:"Un Gantt sans jalons, ou oublier les congés et les fermetures."},
+{t:"Estimer les ressources et le budget",why:"Chiffrer chaque lot et réserver de quoi absorber les risques : c'est la référence de coût.",w:["Ressources par lot (internes, externes, matériel)","Estimation : analogique, paramétrique ou ascendante depuis les lots du WBS","Budget par lot et dans le temps (courbe en S)","Réserve pour aléas, et réserve de management si prévue"],tool:"Tableau de budget par lot, courbe en S",ex:"Exemple de répartition : intégrateur 250 k€, licences 80 k€, ressources internes et formation 50 k€, soit 380 k€, plus 40 k€ de réserve pour aléas = 420 k€.",trap:"Oublier la réserve ou le coût du temps passé par les équipes internes."},
+{t:"Planifier la qualité",why:"Dire comment on vérifiera que les livrables sont bons, avec des indicateurs.",w:["Exigences et normes à respecter","Indicateurs qualité avec cible","Contrôles : revues, tests, recettes","Critères d'acceptation finaux"],tool:"Plan qualité, tableau d'indicateurs",ex:"Moins de 1 % d'erreurs sur les stocks après migration, 90 % des scénarios de recette passés avant le go/no-go, aucune interruption de facturation de plus d'un jour.",trap:"Des indicateurs sans cible chiffrée."},
+{t:"Écrire le plan de communication",why:"Chaque partie prenante reçoit la bonne information, au bon rythme, par le bon canal.",w:["Cible","Message ou objet","Fréquence","Canal ou format","Responsable","Support produit"],tool:"Tableau du plan de communication",ex:"Comité de pilotage : mensuel, réunion d'1 h, DSI, tableau de bord. Utilisateurs : lettre mensuelle et réunion sur site à Figeac avant les formations. Représentants du personnel : information avant le démarrage.",trap:"Un plan qui oublie les utilisateurs finaux ou n'indique pas qui communique."},
+{t:"Préparer le management des risques",why:"Fixer la méthode puis la dérouler jusqu'au bout : identifier, coter, traiter, re-coter, suivre.",w:["Méthode et échelles de cotation chiffrées","Registre : risques, P × G, matrice avant","Traitement : stratégie, action, responsable, coût","Re-cotation P' × G', matrice après","Revue des risques en comité, déclencheurs"],tool:"Registre des risques, matrice de criticité",ex:"7 risques dont 4 critiques ou importants. Après traitement : 0 critique, coût des actions de 36 k€ pour 40 k€ de réserve. Voir l'onglet Analyse de risque.",trap:"S'arrêter à la matrice avant traitement, sans action ni re-cotation."},
+{t:"Organiser la gestion des changements",why:"Toute modification du périmètre, du délai ou du coût passe par une décision, sinon le projet dérive.",w:["Formulaire de demande de changement","Analyse d'impact : délai, coût, qualité, risques","Qui décide (comité de pilotage ou comité des changements)","Mise à jour des références et du PMP"],tool:"Processus et journal des changements",ex:"Un service demande un état spécifique : analyse d'impact (2 semaines, 8 k€), décision au comité de pilotage, puis WBS, planning et budget mis à jour.",trap:"Accepter des changements oralement, sans trace ni impact chiffré."},
+{t:"Définir le suivi et le pilotage",why:"Mesurer l'avancement par rapport aux références et réagir avant qu'il soit trop tard.",w:["Tableau de bord et fréquence du reporting","Indicateurs : avancement, jalons, consommation du budget","Valeur acquise : SPI = EV / PV, CPI = EV / AC","Seuils d'alerte et actions correctives"],tool:"Tableau de bord, courbe en S, valeur acquise",ex:"À S13 : PV 200 k€, EV 170 k€, AC 190 k€. SPI 0,85 (retard) et CPI 0,89 (dépassement). On alerte si l'un passe sous 0,9.",trap:"Suivre seulement les dépenses, sans mesurer le travail réellement fait."},
+{t:"Prévoir la clôture",why:"Finir proprement : faire accepter, tirer les leçons, libérer les ressources.",w:["PV de réception signé","Bilan : délai, coût, qualité, objectifs SMART atteints ?","Retour d'expérience","Archivage, clôture des contrats, libération de l'équipe"],tool:"PV de réception, rapport de bilan, retour d'expérience",ex:"PV de réception un mois après le démarrage, bilan présenté au comité de pilotage d'octobre 2027, retour d'expérience partagé avec la DSI pour les futurs projets.",trap:"Oublier la clôture ou ne pas comparer le résultat aux objectifs SMART."}
+];
+S.pmp=S.pmp||{};
+const SKEL=`PLAN DE MANAGEMENT DE PROJET (PMP)
+
+0. Synthèse : objectif, date clé, budget, 3 messages pour le sponsor
+1. Contexte, enjeux et objectifs SMART
+2. Périmètre : inclus / exclu, livrables, critères d'acceptation
+3. Parties prenantes : registre, matrice pouvoir / intérêt, OBS, RACI
+4. Gouvernance : comités, décisions, escalade
+5. WBS et dictionnaire des lots
+6. Planning : réseau, chemin critique, Gantt, jalons
+7. Ressources et budget : budget par lot, réserve, courbe en S
+8. Qualité : indicateurs et contrôles
+9. Communication : cible, message, fréquence, canal, responsable
+10. Risques : méthode, registre, traitement, re-cotation, suivi
+11. Gestion des changements
+12. Suivi et pilotage : tableau de bord, SPI, CPI, seuils d'alerte
+13. Clôture : PV, bilan, retour d'expérience
+Annexes : hypothèses, glossaire`;
+$("#pmpSk").textContent=SKEL;
+function pmpMeter(){const n=PMP.filter((p,i)=>S.pmp[i]).length;$("#pmpMeter").style.width=(n/PMP.length*100)+"%";$("#pmpInfo").textContent=`${n} étape${n>1?"s":""} sur ${PMP.length} maîtrisée${n>1?"s":""}`}
+$("#pmpSteps").innerHTML=PMP.map((p,i)=>`<details class="step"${i===0?" open":""}><summary><span class="sn${S.pmp[i]?" done":""}" id="sn${i}">${i+1}</span><span>${esc(p.t)}</span></summary><div class="in"><p>${esc(p.why)}</p><div class="kv"><span class="mute">À écrire</span><ul>${p.w.map(x=>`<li>${esc(x)}</li>`).join("")}</ul><span class="mute">Outils</span><span>${esc(p.tool)}</span><span class="mute">Exemple Aéromeca</span><span>${esc(p.ex)}</span><span class="mute">Piège</span><span>${esc(p.trap)}</span></div><button data-pm="${i}" class="${S.pmp[i]?"":"pri"}">${S.pmp[i]?"Marquer à revoir":"Je sais le faire"}</button></div></details>`).join("");
+$("#pmpSteps").addEventListener("click",e=>{const b=e.target.closest("[data-pm]");if(!b)return;const i=+b.dataset.pm;S.pmp[i]=!S.pmp[i];save();b.textContent=S.pmp[i]?"Marquer à revoir":"Je sais le faire";b.className=S.pmp[i]?"":"pri";$("#sn"+i).classList.toggle("done",!!S.pmp[i]);pmpMeter();renderProg()});
+$("#pmpCopy").onclick=()=>{try{navigator.clipboard.writeText(SKEL).then(()=>$("#pmpCopyMsg").textContent="Squelette copié.",()=>$("#pmpCopyMsg").textContent="Copie refusée par le navigateur.")}catch(err){$("#pmpCopyMsg").textContent="Copie indisponible ici."}};
+pmpMeter();
+
+/* ---------- SMART ---------- */
+const LET=[["S","Spécifique","Quoi exactement, pour qui, où ?","Un résultat précis, pas une intention générale."],["M","Mesurable","Quel indicateur, quelle cible chiffrée ?","Une valeur de départ et une valeur d'arrivée."],["A","Atteignable","Faisable avec les moyens du projet ?","Accepté par l'équipe et le sponsor."],["R","Réaliste et pertinent","Lié à l'enjeu du projet ?","Il sert vraiment la raison d'être du projet."],["T","Temporellement défini","Pour quelle date ?","Une échéance précise, pas « rapidement »."]];
+$("#letters").innerHTML=LET.map(l=>`<div class="letter"><b>${l[0]}</b><h3>${l[1]}</h3><p>${l[2]}</p><p class="mute small">${l[3]}</p></div>`).join("");
+const BA=[["Améliorer la gestion de l'entreprise","S, M, T","Réduire de 10 à 7 jours la clôture comptable mensuelle sur les 2 sites d'ici le 31 décembre 2027"],["Mettre l'ERP en service rapidement","M précis, T","ERP en service sur Colomiers et Figeac le 1er septembre 2027, sans interruption de facturation de plus d'un jour"],["Bien former les utilisateurs","S, M, T","100 % des 120 utilisateurs formés (2 jours) avec 80 % de réussite au quiz final avant le 25 août 2027"],["Nettoyer les données","M, T","Faire passer les doublons d'articles de 12 % à moins de 1 % avant la migration finale de juin 2027"]];
+$("#smartBA").innerHTML=BA.map(r=>`<tr><td data-l="Pas SMART">${esc(r[0])}</td><td data-l="Manque"><b>${esc(r[1])}</b></td><td data-l="SMART">${esc(r[2])}</td></tr>`).join("");
+const SMX=[
+{o:"Mettre en service l'ERP sur Colomiers et Figeac au plus vite.",m:["T"],e:"« Au plus vite » n'est pas une date.",r:"ERP en service sur Colomiers et Figeac le 1er septembre 2027."},
+{o:"Former les utilisateurs à l'ERP avant le 1er septembre 2027.",m:["M"],e:"Combien d'utilisateurs, quel niveau, comment on vérifie ?",r:"100 % des 120 utilisateurs formés (2 jours) avec 80 % de réussite au quiz final avant le 25 août 2027."},
+{o:"Réduire de 10 à 7 jours la clôture comptable mensuelle d'ici le 31 décembre 2027.",m:[],e:"Précis, chiffré, faisable avec un ERP, lié à l'enjeu, daté.",r:"Déjà SMART."},
+{o:"ERP en service sur les 2 sites dans 4 semaines, sans aucun bug, pour 50 k€.",m:["A"],e:"Le chemin critique fait 27 semaines et le budget 420 k€ : impossible avec ces moyens.",r:"ERP en service sur les 2 sites le 1er septembre 2027 pour 420 k€, avec 90 % des scénarios de recette passés."},
+{o:"Faire passer le taux d'ouverture de la lettre interne de 20 % à 35 % d'ici juin 2027 (objectif du projet ERP).",m:["R"],e:"Mesurable et daté, mais sans lien avec l'enjeu du projet ERP.",r:"À sortir des objectifs du projet, ou remplacer par : 90 % des utilisateurs connectés chaque semaine un mois après le démarrage."},
+{o:"Améliorer la gestion de l'entreprise grâce à un meilleur outil.",m:["S","M","T"],e:"Quoi précisément, mesuré comment, pour quand ?",r:"Réduire de 10 à 7 jours la clôture comptable mensuelle sur les 2 sites d'ici le 31 décembre 2027."},
+{o:"Faire passer les doublons d'articles de 12 % à moins de 1 %.",m:["T"],e:"Chiffré et précis, mais sans échéance.",r:"Doublons d'articles de 12 % à moins de 1 % avant la migration finale de juin 2027."},
+{o:"Obtenir une bonne satisfaction des utilisateurs sur l'ERP d'ici fin 2027.",m:["M"],e:"« Bonne » ne se mesure pas : quel indicateur, quelle cible ?",r:"Note de satisfaction d'au moins 7/10 à l'enquête utilisateurs de décembre 2027, contre 4/10 pour l'ancien logiciel."}
+];
+const SMs={sel:SMX.map(()=>[]),done:SMX.map(()=>false)};
+S.smartBest=S.smartBest||0;
+const same=(a,b)=>a.length===b.length&&a.every(x=>b.includes(x));
+function renderSmart(){
+const ok=SMX.filter((x,i)=>SMs.done[i]&&same(SMs.sel[i],x.m)).length,nd=SMs.done.filter(Boolean).length;
+$("#smScore").textContent=nd?`${ok} / ${nd} justes${nd===SMX.length?` sur ${SMX.length}`:""}`:"";
+$("#smartEx").innerHTML=SMX.map((x,i)=>{const d=SMs.done[i],sel=SMs.sel[i];
+const chip=(v,lab)=>{let c="";if(!d)c=(v==="0"?!sel.length&&SMs.touched?.[i]:sel.includes(v))?"on":"";else{const want=v==="0"?!x.m.length:x.m.includes(v),picked=v==="0"?!sel.length:sel.includes(v);c=want?"good":picked?"bad":""}
+return `<button data-sx="${i}" data-v="${v}" class="${c}" ${d?"disabled":""}>${lab}</button>`};
+return `<div class="panel"><p class="o">${i+1}. ${esc(x.o)}</p><div class="chips">${["S","M","A","R","T"].map(l=>chip(l,l)).join("")}${chip("0","Aucune")}</div>
+${d?`<div class="expl"><b>${same(sel,x.m)?"Exact.":"Pas tout à fait."}</b> Manque : ${x.m.length?x.m.join(", "):"rien"}. ${esc(x.e)}<br><span class="mute">Version SMART : </span>${esc(x.r)}</div>`:`<button class="pri" data-chk="${i}">Vérifier</button>`}</div>`}).join("");
+if(nd===SMX.length&&ok>S.smartBest){S.smartBest=ok;save();renderProg()}}
+SMs.touched=[];
+$("#smartEx").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+if(b.dataset.chk!=null){const i=+b.dataset.chk;if(!SMs.touched[i]&&!SMs.sel[i].length)return;SMs.done[i]=true;renderSmart();return}
+const i=+b.dataset.sx,v=b.dataset.v;if(isNaN(i))return;SMs.touched[i]=true;
+if(v==="0")SMs.sel[i]=[];else{const s=SMs.sel[i];SMs.sel[i]=s.includes(v)?s.filter(x=>x!==v):[...s,v]}renderSmart()});
+$("#smReset").onclick=()=>{SMs.sel=SMX.map(()=>[]);SMs.done=SMX.map(()=>false);SMs.touched=[];renderSmart()};
+renderSmart();
+
 /* ---------- TIMER ---------- */
 const TM={left:7200,run:false,h:null};
 const fmt=x=>`${Math.floor(x/3600)}:${String(Math.floor(x%3600/60)).padStart(2,"0")}:${String(x%60).padStart(2,"0")}`;
@@ -770,8 +944,8 @@ $("#tmReset").onclick=()=>{clearInterval(TM.h);TM.run=false;TM.left=7200;$("#tmG
 /* ---------- PROGRESS + ROUTER ---------- */
 function renderProg(){
 const known=FC.filter((c,i)=>S.known[i]===1).length,ck=Object.values(S.chk).filter(Boolean).length,full=R.filter(r=>lint(r)[0][0]==="g").length;
-$("#prog").innerHTML=`<a class="tile" href="#cartes"><b>${known}/${FC.length}</b><span>flashcards sues</span></a><a class="tile" href="#quiz"><b>${S.best!=null?S.best+" %":"—"}</b><span>meilleur score au quiz complet</span></a><a class="tile" href="#planning"><b>${S.cpOk}</b><span>réseaux réussis sans aide</span></a><a class="tile" href="#risques"><b>${full}/${R.length}</b><span>risques complets dans ton registre</span></a><a class="tile" href="#plan"><b>${ck}/${CHK1.length+CHK2.length}</b><span>points de la checklist cochés</span></a>`}
-const VIEWS=["plan","cours","cartes","quiz","planning","risques","examen"];
+$("#prog").innerHTML=`<a class="tile" href="#cartes"><b>${known}/${FC.length}</b><span>flashcards sues</span></a><a class="tile" href="#quiz"><b>${S.best!=null?S.best+" %":"—"}</b><span>meilleur score au quiz complet</span></a><a class="tile" href="#planning"><b>${S.cpOk}</b><span>réseaux réussis sans aide</span></a><a class="tile" href="#risques"><b>${full}/${R.length}</b><span>risques complets dans ton registre</span></a><a class="tile" href="#pmp"><b>${PMP.filter((p,i)=>S.pmp[i]).length}/${PMP.length}</b><span>étapes du PMP maîtrisées</span></a><a class="tile" href="#smart"><b>${S.smartBest}/${SMX.length}</b><span>meilleur score à l'exercice SMART</span></a><a class="tile" href="#plan"><b>${ck}/${CHK1.length+CHK2.length}</b><span>points de la checklist cochés</span></a>`}
+const VIEWS=["plan","cours","pmp","smart","cartes","quiz","planning","risques","examen"];
 function route(){const h=location.hash.slice(1),v=VIEWS.includes(h)?h:"plan";
 VIEWS.forEach(x=>$("#v-"+x).classList.toggle("on",x===v));
 document.querySelectorAll("#tabs a").forEach(a=>{const on=a.getAttribute("href")==="#"+v;a.classList.toggle("on",on);if(on)a.scrollIntoView({block:"nearest",inline:"nearest"})});
