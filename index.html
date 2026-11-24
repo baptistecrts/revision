@@ -64,7 +64,7 @@ ul.chk input{min-height:0;width:22px;height:22px;flex:none;margin-top:2px;accent
 ul.chk label{cursor:pointer}
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.5em,1fr));gap:12px;margin-top:18px}
 .tile{display:block;text-decoration:none;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
-.tile b{display:block;font-family:"Red Hat Display";font-size:28px;font-weight:800;line-height:1.1}
+.tile b{display:block;font-family:"Red Hat Display",system-ui,sans-serif;font-size:28px;font-weight:800;line-height:1.1}
 .tile span{color:var(--mute);font-size:14px}
 .clock{margin-top:22px}
 .bar{display:flex;height:64px;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
@@ -76,12 +76,12 @@ ul.chk label{cursor:pointer}
 .legend time{font-variant-numeric:tabular-nums;color:var(--mute);white-space:nowrap;min-width:6.5em}
 .flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:12px}
 .flow div{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;position:relative}
-.flow b{display:block;font-family:"Red Hat Display";font-size:18px}
+.flow b{display:block;font-family:"Red Hat Display",system-ui,sans-serif;font-size:18px}
 .flow .hot{border-color:var(--y);background:#231f3d}
 .flow .stop{grid-column:1/-1;background:transparent;border:1px dashed var(--ko);color:var(--ko);font-weight:700;text-align:center;padding:8px}
 @media(max-width:700px){.flow{grid-template-columns:minmax(0,1fr)}}
 details{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin:10px 0}
-summary{cursor:pointer;padding:14px 16px;font-family:"Red Hat Display";font-weight:700;font-size:18px;min-height:44px}
+summary{cursor:pointer;padding:14px 16px;font-family:"Red Hat Display",system-ui,sans-serif;font-weight:700;font-size:18px;min-height:44px}
 details>.in{padding:0 16px 16px}
 .toc{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 6px}
 .toc a{flex:none;padding:8px 12px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--ink);font-size:15px}
@@ -96,7 +96,7 @@ details>.in{padding:0 16px 16px}
 .warn{border:1px solid var(--y);background:#1f2142;border-radius:12px;padding:14px 16px;margin:12px 0}
 /* flashcards */
 .card{min-height:280px;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:28px 22px;border-radius:18px;background:linear-gradient(160deg,#1a2a66,#121e4a);border:1px solid var(--line);cursor:pointer;user-select:none}
-.card .q{font-family:"Red Hat Display";font-size:clamp(22px,3.4vw,30px);font-weight:800;line-height:1.15}
+.card .q{font-family:"Red Hat Display",system-ui,sans-serif;font-size:clamp(22px,3.4vw,30px);font-weight:800;line-height:1.15}
 .card .a{font-size:17px;line-height:1.55;text-align:left;max-width:60ch;margin:0 auto}
 .card.back{background:linear-gradient(160deg,#20306e,#16224f);border-color:var(--t)}
 .card .tag{font-size:14px;color:var(--mute);margin-bottom:12px}
@@ -142,11 +142,11 @@ tr.crit td:first-child{color:var(--y);font-weight:700}
 @media(max-width:900px){.sticky{position:static}}
 .sum{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}
 .sum div{background:#0d1840;border-radius:10px;padding:10px}
-.sum b{font-family:"Red Hat Display";font-size:22px}
+.sum b{font-family:"Red Hat Display",system-ui,sans-serif;font-size:22px}
 .letters{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:16px 0}
 @media(max-width:760px){.letters{grid-template-columns:minmax(0,1fr)}}
 .letter{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px}
-.letter b{font-family:"Red Hat Display";font-size:46px;line-height:1;color:var(--y);display:block}
+.letter b{font-family:"Red Hat Display",system-ui,sans-serif;font-size:46px;line-height:1;color:var(--y);display:block}
 .letter h3{margin:.3em 0 .3em;font-size:18px}
 .letter p{font-size:15px;margin:0 0 .4em}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
@@ -164,14 +164,80 @@ tr.crit td:first-child{color:var(--y);font-weight:700}
 .kv ul{margin:0;padding-left:1.1em}
 @media(max-width:600px){.kv{grid-template-columns:minmax(0,1fr);gap:2px}.kv>span.mute{margin-top:8px}}
 pre.sk{background:#0d1840;border:1px solid var(--line);border-radius:10px;padding:14px 16px;white-space:pre-wrap;font:15px/1.6 "Red Hat Text",sans-serif;margin:10px 0}
-.timer{font-family:"Red Hat Display";font-weight:800;font-size:clamp(52px,10vw,88px);line-height:1;font-variant-numeric:tabular-nums}
+.tool{display:none}.tool.on{display:block}
+a.btn{display:inline-flex;align-items:center;text-decoration:none}
+.chain{border:2px solid var(--y);border-radius:16px;padding:14px;background:#0e1a44;margin-top:14px}
+.chd{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;text-decoration:none;color:var(--ink);padding:6px 10px;border-radius:10px;margin-bottom:10px;min-height:44px}
+.chd b{font-family:"Red Hat Display",system-ui,sans-serif;font-size:24px;font-weight:800;color:var(--y)}
+.chd span{color:var(--mute)}
+.chd.on{background:var(--y)}.chd.on b,.chd.on span{color:#0b1433}
+.clinks{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.tl{display:flex;flex-direction:column;padding:8px 14px;border-radius:12px;background:var(--panel);border:1px solid var(--line);text-decoration:none;color:var(--ink);min-height:44px;justify-content:center}
+.tl b{font-family:"Red Hat Display",system-ui,sans-serif;font-size:18px;line-height:1.1}
+.tl span{font-size:13px;color:var(--mute)}
+.tl.on{background:var(--t);border-color:var(--t);color:#0b1433}.tl.on span{color:#0b1433}
+.arr{color:var(--mute);font-style:normal}
+@media(max-width:600px){.clinks{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.arr{display:none}}
+.org{display:flex;flex-direction:column;align-items:center}
+.ob{position:relative;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 10px;text-align:center;font-size:14px;line-height:1.3}
+.ob b{display:block;font-size:15px}
+.ob small{display:block;color:var(--mute);font-size:13px}
+.ob.top{background:var(--y);color:#0b1433;border-color:var(--y)}.ob.top small{color:#2a2f4a}
+.ob.pm{background:var(--t);color:#0b1433;border-color:var(--t)}.ob.pm small{color:#16304a}
+.ob.dash{border-style:dashed;background:transparent}
+.ob .tag{position:absolute;top:-9px;right:-6px;font-style:normal;font-size:12px;font-weight:700;background:#0b1433;color:var(--y);border:1px solid var(--y);border-radius:6px;padding:0 5px}
+.vl{width:0;height:16px;border-left:2px solid rgba(220,228,255,.35)}
+.orow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;width:100%;position:relative;padding-top:16px;border-top:2px solid rgba(220,228,255,.35)}
+.orow.ext{grid-template-columns:repeat(3,minmax(0,1fr));border-top:2px dashed rgba(220,228,255,.25);margin-top:16px}
+@media(max-width:1100px){.orow{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:520px){.orow,.orow.ext{grid-template-columns:minmax(0,1fr)}}
+.wroot{background:var(--y);color:#0b1433;font-family:"Red Hat Display",system-ui,sans-serif;font-weight:800;font-size:18px;border-radius:10px;padding:10px 14px;text-align:center}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(10.5em,1fr));gap:8px;margin-top:10px;padding-top:10px;border-top:2px solid rgba(220,228,255,.35)}
+.wcol{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.wcol h4{margin:0;background:var(--t);color:#0b1433;padding:8px 10px;font-size:15px}
+.wcol ul{list-style:none;margin:0;padding:6px 10px 10px;font-size:14px}
+.wcol li{padding:3px 0;border-bottom:1px solid var(--line)}
+.wcol li:last-child{border:0}
+.wcol code{color:var(--y);font-family:inherit;font-weight:700;margin-right:4px}
+.wbad{list-style:none;padding:0;margin:0}
+.wbad li{margin:4px 0}
+.wbad button{width:100%;text-align:left;font-weight:500;min-height:42px}
+.wbad button.on{border-color:var(--y);background:#2a2a4a}
+.wbad button.good{border-color:var(--ok);background:#163d4a}
+.wbad button.bad{border-color:var(--ko);background:#4a1f2a}
+.wbad button.miss{border-color:var(--ko);border-style:dashed}
+table.raci td,table.raci th{text-align:center;vertical-align:middle}
+table.raci td:first-child,table.raci th:first-child,table.raci td:last-child{text-align:left}
+table.raci select{min-height:40px;padding:4px 6px;width:4.6em}
+table.raci select.diff{border-color:var(--y)}
+table.raci td:last-child{font-size:14px;min-width:11em}
+.node{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:2px solid var(--r);border-radius:10px;overflow:hidden;text-align:center;font-variant-numeric:tabular-nums;max-width:340px;margin:0 auto}
+.node span{padding:6px 4px;border:1px solid var(--line);font-weight:700}
+.node b{grid-column:1/-1;padding:8px;background:#3a1a2c;border:1px solid var(--line)}
+.node.big{margin-bottom:12px;border-color:var(--t)}
+.node.big span{font-weight:500;font-size:13px;color:var(--mute)}
+.node.big b{background:var(--panel2)}
+.gbig{min-width:760px;position:relative}
+.gr{display:grid;grid-template-columns:13.5em minmax(0,1fr);gap:8px;align-items:center;font-size:14px;min-height:30px}
+.gt{position:relative;height:26px}
+.gt i{position:absolute;top:4px;bottom:4px;border-radius:4px;background:var(--b)}
+.gt i.c{background:var(--r)}
+.gt i.f{background:repeating-linear-gradient(45deg,rgba(79,193,198,.55) 0 4px,transparent 4px 8px);border:1px solid rgba(79,193,198,.6)}
+.gt em{position:absolute;top:50%;width:14px;height:14px;background:var(--y);transform:translate(-50%,-50%) rotate(45deg);font-style:normal}
+.gbg{position:absolute;top:0;bottom:0;pointer-events:none}
+.gbg.close{background:repeating-linear-gradient(-45deg,rgba(170,180,220,.16) 0 6px,transparent 6px 12px)}
+.gbg.dl{border-left:2px solid var(--y)}
+.gbg.m{border-left:1px solid var(--line)}
+.ghead{position:relative;height:22px;font-size:13px;color:var(--mute)}
+.ghead span{position:absolute;padding-left:4px;white-space:nowrap}
+.timer{font-family:"Red Hat Display",system-ui,sans-serif;font-weight:800;font-size:clamp(52px,10vw,88px);line-height:1;font-variant-numeric:tabular-nums}
 @media(max-width:600px){table{font-size:13px}th,td{padding:6px 5px}.stack thead{display:none}.stack tr{display:grid;padding-block:8px;border-bottom:1px solid var(--line)}.stack td{border:0;display:grid;grid-template-columns:7.2em minmax(0,1fr);gap:8px;padding:3px 0}.stack td::before{content:attr(data-l);color:var(--mute);font-size:13px}}
 @media(prefers-reduced-motion:no-preference){.card{transition:transform .25s}.card:active{transform:scale(.985)}}
 </style>
 </head>
 <body>
 <nav><div class="scroll" id="tabs">
-<a href="#plan">Plan 2 h</a><a href="#cours">Cours</a><a href="#pmp">PMP</a><a href="#smart">SMART</a><a href="#cartes">Flashcards</a><a href="#quiz">Quiz</a><a href="#planning">Chemin critique</a><a href="#risques">Analyse de risque</a><a href="#examen">Sujet blanc</a>
+<a href="#plan">Plan 2 h</a><a href="#cours">Cours</a><a href="#pmp">Méthodes</a><a href="#cartes">Flashcards</a><a href="#quiz">Quiz</a><a href="#planning">Chemin critique</a><a href="#risques">Analyse de risque</a><a href="#examen">Sujet blanc</a>
 </div></nav>
 
 <!-- ============ PLAN ============ -->
@@ -330,10 +396,26 @@ Chemin critique = tâches à marge totale nulle = plus long chemin
 </div></div>
 </section>
 
-<!-- ============ PMP ============ -->
-<section class="view" id="v-pmp">
-<div class="band"><div class="wrap">
-<h1>Rédiger un PMP, étape par étape</h1>
+<!-- ============ METHODES ============ -->
+<section class="view" id="v-meth">
+<div class="band" style="padding-bottom:12px"><div class="wrap">
+<h1>Méthodes : chaque outil, pas à pas</h1>
+<p class="lead">Chaque outil répond à une question et alimente le suivant. Le PMP les rassemble tous, avec le budget, la qualité, la communication et les risques.</p>
+<div class="chain">
+<a class="chd" href="#pmp" data-t="pmp"><b>PMP</b><span>le document qui rassemble tout</span></a>
+<div class="clinks">
+<a class="tl" href="#smart" data-t="smart"><b>SMART</b><span>quels objectifs ?</span></a><i class="arr">→</i>
+<a class="tl" href="#obs" data-t="obs"><b>OBS</b><span>qui ?</span></a><i class="arr">→</i>
+<a class="tl" href="#wbs" data-t="wbs"><b>WBS</b><span>quoi ?</span></a><i class="arr">→</i>
+<a class="tl" href="#raci" data-t="raci"><b>RACI</b><span>qui fait quoi ?</span></a><i class="arr">→</i>
+<a class="tl" href="#pert" data-t="pert"><b>PERT</b><span>dans quel ordre ?</span></a><i class="arr">→</i>
+<a class="tl" href="#gantt" data-t="gantt"><b>Gantt</b><span>quand ?</span></a>
+</div>
+<p class="small mute" style="margin:10px 0 0">Plus, dans le PMP : budget · qualité · communication · risques · changements · suivi · clôture</p>
+</div>
+</div></div>
+<div class="tool" id="t-pmp"><div class="band" style="padding-top:8px"><div class="wrap">
+<h2>PMP : rédiger le plan de management, étape par étape</h2>
 <p class="lead">Le PMP (Project Management Plan, plan de management de projet) dit comment le projet sera mené, suivi, maîtrisé et clôturé. La charte autorise le projet, le PMP l'organise et fixe les trois références : périmètre, délai et coût.</p>
 <div class="grid2">
 <div class="scroll"><table>
@@ -359,13 +441,10 @@ Chemin critique = tâches à marge totale nulle = plus long chemin
 <p class="mute">Un titre par étape, un tableau par rubrique dès que possible, et des chiffres tirés du sujet. Si le temps manque, garde en priorité objectifs, périmètre, WBS, planning, budget et risques.</p>
 <pre class="sk" id="pmpSk"></pre>
 <div class="row"><button id="pmpCopy">Copier le squelette</button><span class="small mute" id="pmpCopyMsg"></span></div>
-</div></div>
-</section>
-
-<!-- ============ SMART ============ -->
-<section class="view" id="v-smart">
-<div class="band"><div class="wrap">
-<h1>Objectifs SMART</h1>
+<div class="row" style="margin-top:24px;justify-content:flex-end"><a class="btn" href="#smart">Outil suivant : SMART →</a></div>
+</div></div></div>
+<div class="tool" id="t-smart"><div class="band" style="padding-top:8px"><div class="wrap">
+<h2>SMART : écrire des objectifs vérifiables</h2>
 <p class="lead">Un objectif SMART se vérifie lettre par lettre. Il apparaît dans la charte et dans la première partie du PMP, et c'est sur lui qu'on juge la réussite du projet à la clôture.</p>
 <div class="letters" id="letters"></div>
 <div class="warn"><b>La méthode en 1 phrase :</b> verbe d'action + quoi + pour qui ou où + indicateur et valeur cible (depuis une valeur de départ) + date. Exemple : « Réduire de 10 à 7 jours la clôture comptable mensuelle sur les 2 sites d'ici le 31 décembre 2027. »</div>
@@ -380,7 +459,193 @@ Chemin critique = tâches à marge totale nulle = plus long chemin
 <p class="msg" id="smScore"></p>
 <div class="sq" id="smartEx"></div>
 <div class="row" style="margin-top:12px"><button id="smReset">Recommencer l'exercice</button></div>
-</div></div>
+<div class="row" style="margin-top:24px;justify-content:flex-end"><a class="btn" href="#obs">Outil suivant : OBS →</a></div>
+</div></div></div>
+<div class="tool" id="t-obs"><div class="band" style="padding-top:8px"><div class="wrap">
+<h2>OBS : l'organigramme du projet</h2>
+<p class="lead">L'OBS (Organization Breakdown Structure) montre qui participe au projet et qui décide. C'est l'organigramme du projet, pas celui de l'entreprise : on n'y met que les rôles du projet.</p>
+<div class="grid2">
+<div>
+<h3 style="margin-top:0">Méthode pas à pas</h3>
+<ol>
+<li><b>En haut, le pilotage</b> : sponsor et comité de pilotage, ceux qui décident et financent.</li>
+<li><b>Sous eux, le chef de projet</b>. Dans un projet client / fournisseur, montre les deux côtés : la MOA (le client) et la MOE (celui qui réalise).</li>
+<li><b>L'équipe projet</b> : responsables de lots, key users, prestataires qui réalisent.</li>
+<li><b>À part, en pointillés</b> : les acteurs consultés ou informés (fournisseurs, autorités, représentants du personnel).</li>
+<li><b>Dans chaque case</b> : le rôle, le nom, l'organisation, et si possible la disponibilité (« 1 j / semaine »).</li>
+<li><b>Vérifie</b> que chaque personne du RACI et du plan de communication apparaît dans l'OBS.</li>
+</ol>
+<div class="warn"><b>MOA, MOE, AMOA.</b> MOA (maîtrise d'ouvrage) : le client qui exprime le besoin et reçoit le résultat. MOE (maîtrise d'œuvre) : celui qui réalise. AMOA : un conseil qui aide la MOA (c'était votre rôle sur ElectroPark).</div>
+</div>
+<div class="panel">
+<p class="small mute" style="margin-top:0">OBS du sujet blanc Aéromeca</p>
+<div class="org">
+<div class="ob top"><b>Comité de pilotage</b><small>Mme Laurent, DG, sponsor · responsables de service</small><i class="tag">MOA</i></div>
+<div class="vl"></div>
+<div class="ob pm"><b>Chef de projet</b><small>M. Benali, DSI</small></div>
+<div class="vl"></div>
+<div class="orow">
+<div class="ob"><b>Key users achats et stocks</b><small>2 personnes, 1 j / sem.</small></div>
+<div class="ob"><b>Key users production</b><small>2 personnes, dont Figeac</small></div>
+<div class="ob"><b>Key users comptabilité</b><small>2 personnes, 1 j / sem.</small></div>
+<div class="ob"><b>Intégrateur</b><small>chef de projet + consultants</small><i class="tag">MOE</i></div>
+<div class="ob"><b>IT interne</b><small>1 administrateur</small></div>
+</div>
+<div class="orow ext">
+<div class="ob dash"><b>Éditeur de l'ERP</b><small>licences, support</small></div>
+<div class="ob dash"><b>Prestataire de paie</b><small>interface, consulté</small></div>
+<div class="ob dash"><b>Représentants du personnel</b><small>informés</small></div>
+</div>
+</div>
+</div>
+</div>
+<h3>Pièges</h3>
+<ul><li>Recopier l'organigramme de l'entreprise.</li><li>Oublier le sponsor ou le comité de pilotage.</li><li>Des cases sans nom ni rôle, ou confondre l'OBS (qui) avec le WBS (quoi).</li></ul>
+<h3>Exercice : place chaque acteur</h3>
+<div class="panel"><div id="obsEx"></div><div class="row" style="margin-top:10px"><button class="pri" id="obsChk">Vérifier</button><button id="obsReset">Effacer</button></div><p class="msg" id="obsMsg"></p></div>
+<div class="row" style="margin-top:24px;justify-content:flex-end"><a class="btn" href="#wbs">Outil suivant : WBS →</a></div>
+</div></div></div>
+<div class="tool" id="t-wbs"><div class="band" style="padding-top:8px"><div class="wrap">
+<h2>WBS : découper tout le travail en livrables</h2>
+<p class="lead">Le WBS (Work Breakdown Structure, ou organigramme des tâches) décompose 100 % du travail du projet en livrables, puis en lots de travail que l'on peut estimer et confier. Il dit <b>quoi</b>, jamais <b>quand</b>.</p>
+<div class="grid2">
+<div>
+<h3 style="margin-top:0">Méthode pas à pas</h3>
+<ol>
+<li><b>Niveau 0</b> : le projet, ou son livrable final.</li>
+<li><b>Niveau 1</b> : les grands livrables (ou les phases), avec toujours une branche <b>Management de projet</b>.</li>
+<li><b>Niveau 2 et suivants</b> : décompose chaque branche jusqu'aux <b>lots de travail</b>. Un lot s'estime en durée et en coût, a un seul responsable, et représente environ 8 à 80 h de travail.</li>
+<li><b>Règle des 100 %</b> : les enfants couvrent tout le parent, rien de plus. Le hors périmètre n'apparaît pas.</li>
+<li><b>Pas de chevauchement</b> : un travail n'apparaît qu'une seule fois.</li>
+<li><b>Codifie</b> : 1, 1.1, 1.1.1. Ces codes servent ensuite au RACI, au planning, au budget et aux risques.</li>
+<li><b>Rédige le dictionnaire</b> : une fiche par lot avec description, livrable, responsable, durée, coût et critère d'acceptation.</li>
+</ol>
+<p class="small mute">Formulation : des noms ou des résultats (« Données reprises »), pas des actions datées. Tu peux le présenter en arbre ou en liste indentée.</p>
+</div>
+<div class="panel">
+<p class="small mute" style="margin-top:0">Dictionnaire, exemple pour un lot</p>
+<div class="kv" style="margin:0">
+<span class="mute">Code</span><span>1.5.2 Migrations à blanc</span>
+<span class="mute">Description</span><span>Deux migrations d'essai des articles, stocks et fournisseurs vers l'ERP de test</span>
+<span class="mute">Livrable</span><span>Rapport d'écarts de chaque migration</span>
+<span class="mute">Responsable</span><span>Consultant données de l'intégrateur</span>
+<span class="mute">Durée, coût</span><span>3 semaines, 18 k€ (exemple)</span>
+<span class="mute">Acceptation</span><span>Moins de 2 % d'écarts à la seconde migration</span>
+</div>
+</div>
+</div>
+<h3>Le WBS d'Aéromeca, en arbre</h3>
+<div class="wroot">1 · ERP Aéromeca</div>
+<div class="wgrid" id="wbsGrid"></div>
+<h3>Pièges</h3>
+<ul><li>Mettre un ordre ou des dépendances (« après », « puis »).</li><li>Oublier la branche Management de projet.</li><li>Inclure le hors périmètre, mettre des personnes à la place de livrables.</li><li>Découper trop peu (lots impossibles à estimer) ou trop (des tâches de 2 h).</li></ul>
+<h3>Exercice : trouve les 4 erreurs</h3>
+<p class="mute">Touche les lignes fautives de ce WBS raté, puis vérifie.</p>
+<div class="panel"><ul class="wbad" id="wbsBad"></ul><div class="row" style="margin-top:10px"><button class="pri" id="wbChk">Vérifier</button><button id="wbReset">Effacer</button></div><p class="msg" id="wbMsg"></p><div id="wbExpl"></div></div>
+<div class="row" style="margin-top:24px;justify-content:flex-end"><a class="btn" href="#raci">Outil suivant : RACI →</a></div>
+</div></div></div>
+<div class="tool" id="t-raci"><div class="band" style="padding-top:8px"><div class="wrap">
+<h2>RACI : qui fait quoi sur chaque lot</h2>
+<p class="lead">La matrice RACI croise les lots du WBS (lignes) et les rôles de l'OBS (colonnes). Elle dit qui réalise, qui valide, qui est consulté et qui est informé.</p>
+<div class="letters" style="grid-template-columns:repeat(4,minmax(0,1fr))" id="raciL"></div>
+<div class="grid2">
+<div>
+<h3 style="margin-top:0">Méthode pas à pas</h3>
+<ol>
+<li><b>Lignes</b> : les lots du WBS, en général le niveau 2 ou les livrables.</li>
+<li><b>Colonnes</b> : les rôles de l'OBS (des rôles plutôt que des noms).</li>
+<li><b>Place d'abord le A</b> de chaque ligne : <b>un seul</b>, celui qui rend des comptes et valide.</li>
+<li><b>Puis les R</b> : au moins un par ligne. Le A peut aussi réaliser (noté A/R).</li>
+<li><b>Puis C et I</b>, sans excès : trop de C ralentit les décisions.</li>
+<li><b>Relis les colonnes</b> : un rôle avec des R partout est surchargé, un rôle vide n'a rien à faire dans le projet.</li>
+</ol>
+</div>
+<div>
+<h3 style="margin-top:0">Pièges</h3>
+<ul><li>Deux A sur la même ligne : personne n'est vraiment responsable.</li><li>Une ligne sans R : le travail n'est fait par personne.</li><li>Le sponsor en A partout : il devient un goulot d'étranglement.</li><li>Des noms qui ne sont pas dans l'OBS.</li></ul>
+</div>
+</div>
+<h3>Exercice : remplis le RACI d'Aéromeca</h3>
+<p class="mute">Choisis une lettre par case. La colonne de droite vérifie les règles en direct. Le corrigé est une proposition : d'autres répartitions se défendent si les règles sont respectées.</p>
+<div class="panel"><div class="scroll"><table class="raci" id="raciT"></table></div>
+<div class="row" style="margin-top:10px"><button class="pri" id="raciCmp">Comparer au corrigé</button><button id="raciSol">Afficher le corrigé</button><button id="raciReset">Vider</button></div><p class="msg" id="raciMsg"></p></div>
+<div class="row" style="margin-top:24px;justify-content:flex-end"><a class="btn" href="#pert">Outil suivant : PERT →</a></div>
+</div></div></div>
+<div class="tool" id="t-pert"><div class="band" style="padding-top:8px"><div class="wrap">
+<h2>PERT : ordonner les tâches et trouver le chemin critique</h2>
+<p class="lead">Le réseau PERT représente les tâches et leurs dépendances. Il sert à calculer les dates au plus tôt et au plus tard, les marges et le chemin critique, donc la durée minimale du projet.</p>
+<div class="grid2">
+<div>
+<h3 style="margin-top:0">Méthode pas à pas</h3>
+<ol>
+<li><b>Tableau des antériorités</b> : chaque lot du WBS devient une tâche avec sa durée et ses antécédents.</li>
+<li><b>Rangs</b> : rang 1 = tâches sans antécédent, rang 2 = tâches dont tous les antécédents sont au rang 1, etc.</li>
+<li><b>Dessine</b> les tâches rang par rang, de gauche à droite, et relie chaque antécédent à sa tâche par une flèche.</li>
+<li><b>Passe avant</b> : début au plus tôt = <b>max</b> des fins au plus tôt des antécédents.</li>
+<li><b>Passe arrière</b> : fin au plus tard = <b>min</b> des débuts au plus tard des successeurs.</li>
+<li><b>Marges</b> : totale = début au plus tard − début au plus tôt. Libre = début au plus tôt du successeur le plus proche − fin au plus tôt.</li>
+<li><b>Chemin critique</b> : les tâches à marge totale nulle, à surligner en rouge.</li>
+</ol>
+<p class="small mute">Deux notations existent : tâches dans les nœuds (méthode des potentiels, MPM, la plus simple à l'examen) ou tâches sur les flèches (PERT classique, avec étapes numérotées et tâches fictives). Utilise celle de ton cours.</p>
+</div>
+<div class="panel">
+<p class="small mute" style="margin-top:0">Une case de tâche (notation dans les nœuds)</p>
+<div class="node big"><span>Début au plus tôt</span><span>Durée</span><span>Fin au plus tôt</span><b>Nom de la tâche</b><span>Début au plus tard</span><span>Marge totale</span><span>Fin au plus tard</span></div>
+<div class="node"><span>2</span><span>6</span><span>8</span><b>B · Analyse des besoins</b><span>2</span><span>0</span><span>8</span></div>
+<p class="small" style="margin-top:10px">B commence au plus tôt en semaine 2, dure 6 semaines et n'a aucune marge : elle est critique.</p>
+</div>
+</div>
+<h3>Le réseau d'Aéromeca, complet</h3>
+<p class="small mute">En semaines. Rouge : chemin critique A → B → D → F → G → I, 27 semaines.</p>
+<div class="panel scroll"><svg id="pertBig" role="img" aria-label="Réseau PERT d'Aéromeca" width="1060" height="290"></svg></div>
+<h3>Estimer une durée à 3 points</h3>
+<div class="panel"><div class="row">
+<label class="mute" for="po">Optimiste</label><input id="po" inputmode="decimal" value="4" style="width:5em">
+<label class="mute" for="pm">Plus probable</label><input id="pm" inputmode="decimal" value="6" style="width:5em">
+<label class="mute" for="pp">Pessimiste</label><input id="pp" inputmode="decimal" value="14" style="width:5em">
+</div><p class="msg" id="pRes" style="font-weight:500"></p></div>
+<h3>Pièges</h3>
+<ul><li>Prendre le min en passe avant ou le max en passe arrière.</li><li>Oublier la passe arrière : sans elle, pas de marge.</li><li>Croire que le chemin critique est celui qui a le plus de tâches : c'est le plus long en durée.</li></ul>
+<div class="row"><a class="btn" href="#planning">S'entraîner sur des réseaux aléatoires</a></div>
+<div class="row" style="margin-top:24px;justify-content:flex-end"><a class="btn" href="#gantt">Outil suivant : Gantt →</a></div>
+</div></div></div>
+<div class="tool" id="t-gantt"><div class="band" style="padding-top:8px"><div class="wrap">
+<h2>Gantt : le planning en dates réelles</h2>
+<p class="lead">Le diagramme de Gantt place chaque tâche sur un calendrier : une ligne par tâche, une barre pour sa durée, un losange par jalon. Il montre bien le temps, moins bien les dépendances, d'où le PERT avant lui.</p>
+<div class="grid2">
+<div>
+<h3 style="margin-top:0">Méthode pas à pas</h3>
+<ol>
+<li><b>Pars du PERT</b> : chaque tâche commence à sa date au plus tôt.</li>
+<li><b>Choisis l'échelle</b> (jours, semaines, mois) et la vraie date de lancement.</li>
+<li><b>Intègre le calendrier</b> : week-ends, congés, fermetures, disponibilité des ressources.</li>
+<li><b>Trace les barres</b>, puis les <b>jalons</b> (losanges, durée 0) : décisions, validations, livraisons.</li>
+<li><b>Mets en évidence le chemin critique</b> et dessine les marges.</li>
+<li><b>Ajoute la date limite</b> et vérifie la marge restante.</li>
+<li><b>Fige-le</b> : c'est la référence de délai (baseline). En suivi, ajoute l'avancement en %.</li>
+</ol>
+</div>
+<div>
+<h3 style="margin-top:0">Gantt ou PERT ?</h3>
+<div class="scroll"><table><thead><tr><th></th><th>PERT</th><th>Gantt</th></tr></thead><tbody>
+<tr><td class="mute">Montre bien</td><td>Dépendances, chemin critique, marges</td><td>Dates, durées, jalons, charge dans le temps</td></tr>
+<tr><td class="mute">Montre mal</td><td>Le calendrier</td><td>Les dépendances</td></tr>
+<tr><td class="mute">Sert à</td><td>Calculer</td><td>Communiquer et suivre</td></tr>
+</tbody></table></div>
+<h3>Pièges</h3>
+<ul><li>Pas de dates réelles, ou oublier fermetures et congés.</li><li>Pas de jalons.</li><li>Ne pas montrer le chemin critique ni la date limite.</li></ul>
+</div>
+</div>
+<h3>Le Gantt d'Aéromeca</h3>
+<div class="seg" id="gMode" style="margin-bottom:10px"><button data-g="tot" class="on">Au plus tôt</button><button data-g="tard">Au plus tard</button></div>
+<div class="panel scroll"><div class="gbig" id="gBig"></div></div>
+<p class="small mute" style="margin-top:8px">Rouge : critique. Hachuré : marge. Bande grise : fermeture du 2 au 22 août. Ligne jaune : date limite du 1er septembre. Lancement le lundi 4 janvier 2027.</p>
+<h3>Lis le Gantt</h3>
+<details><summary>Quelle tâche peut glisser le plus sans retarder le projet ?</summary><div class="in">H, la formation : 7 semaines de marge totale (au plus tôt en semaines 16 à 19, au plus tard en semaines 23 à 26).</div></details>
+<details><summary>La reprise des données (E) prend 3 semaines de retard. Le démarrage bouge-t-il ?</summary><div class="in">Non, E a 4 semaines de marge. Il ne reste plus qu'1 semaine de marge sur E : à signaler au comité.</div></details>
+<details><summary>Le choix de l'intégrateur (C) prend 2 semaines de retard. Conséquence ?</summary><div class="in">C n'a qu'1 semaine de marge : D démarre une semaine plus tard et tout le projet finit en semaine 28. La date limite tient encore, mais le tampon avant la fermeture d'août diminue.</div></details>
+
+</div></div></div>
 </section>
 
 <!-- ============ FLASHCARDS ============ -->
@@ -544,6 +809,13 @@ const FC=[
 ["c","Project charter : à quoi sert-il ?","Il autorise officiellement le projet et donne son autorité au chef de projet. Il dit pourquoi (contexte, objectifs), quoi (périmètre, livrables), qui (sponsor, chef de projet, parties prenantes), quand (jalons), combien (budget) et avec quelles limites (contraintes, hypothèses, risques majeurs). Validé par le sponsor."],
 ["m","Objectif SMART ?","Spécifique, Mesurable, Atteignable, Réaliste, Temporellement défini. Ex : « ERP en service sur les 2 sites le 1er septembre 2027, sans interruption de facturation de plus d'un jour »."],
 ["c","Pourquoi écrire ce qui est hors périmètre ?","Lister explicitement les exclusions évite la dérive du périmètre (scope creep) et les malentendus avec le client."],
+["m","OBS ?","Organization Breakdown Structure : l'organigramme du projet. Pilotage en haut (sponsor, comité), chef de projet, équipe projet, et acteurs externes consultés en pointillés. Il dit qui, le WBS dit quoi."],
+["m","MOA et MOE ?","MOA (maîtrise d'ouvrage) : le client qui exprime le besoin et reçoit le résultat. MOE (maîtrise d'œuvre) : celui qui réalise. AMOA : conseil qui assiste la MOA."],
+["m","Construire un RACI ?","Lignes = lots du WBS, colonnes = rôles de l'OBS. Placer d'abord l'unique A de chaque ligne, puis au moins un R, puis C et I. Relire les colonnes pour repérer surcharge et rôles inutiles."],
+["m","Case d'une tâche dans le PERT (nœuds) ?","En haut : début au plus tôt · durée · fin au plus tôt. Au milieu : le nom. En bas : début au plus tard · marge totale · fin au plus tard."],
+["m","Rang d'une tâche dans le PERT ?","Rang 1 : pas d'antécédent. Rang n : tous ses antécédents sont aux rangs inférieurs. On dessine le réseau rang par rang, de gauche à droite."],
+["m","Construire un Gantt ?","Dates au plus tôt du PERT → échelle et date réelle de lancement → calendrier (congés, fermetures) → barres → jalons en losanges → chemin critique et marges → date limite → figer en baseline."],
+["m","Gantt ou PERT ?","PERT : montre les dépendances, sert à calculer chemin critique et marges. Gantt : montre le calendrier, sert à communiquer et à suivre. On fait le PERT d'abord."],
 ["m","PMP ?","Project Management Plan : il décrit comment le projet sera exécuté, suivi, maîtrisé et clôturé. Il regroupe les plans par domaine (périmètre, planning, coûts, qualité, ressources, communication, risques, achats, parties prenantes) et les références. C'est un document vivant."],
 ["m","Charte ou PMP ?","La charte autorise le projet, à haut niveau, et nomme le chef de projet. Le PMP vient après : il détaille comment on réalise et pilote le projet."],
 ["m","Les étapes d'un PMP, dans l'ordre ?","Cadrer (objectifs SMART) · Périmètre · Parties prenantes et organisation · Gouvernance · WBS · Planning · Ressources et budget · Qualité · Communication · Risques · Changements · Suivi et pilotage · Clôture."],
@@ -592,6 +864,12 @@ const FC=[
 ["r","Et les opportunités ?","Risques positifs : exploiter, améliorer, partager, accepter."]
 ];
 const QZ=[
+["L'OBS représente…",["l'organisation des acteurs du projet et qui décide","la décomposition du travail en livrables","l'ordre des tâches","le budget par lot"],"OBS = qui. WBS = quoi. PERT = dans quel ordre. Gantt = quand."],
+["Une ligne du RACI n'a aucun R. Problème ?",["Oui : personne ne réalise ce lot","Non, le A suffit toujours","Non, c'est fréquent","Oui : il faut deux A"],"Chaque ligne a au moins un R et exactement un A (qui peut aussi être R, noté A/R)."],
+["Dans une case de tâche du PERT (nœuds), la case du milieu en bas contient…",["la marge totale","la durée","la fin au plus tôt","le rang"],"En haut : début tôt, durée, fin tôt. En bas : début tard, marge totale, fin tard."],
+["Sur un Gantt, un losange représente…",["un jalon, de durée nulle","une tâche critique","une tâche fictive","une ressource"],"Un jalon marque une décision, une validation ou une livraison."],
+["Par quoi commence-t-on, PERT ou Gantt ?",["Le PERT, pour calculer dates et chemin critique, puis le Gantt pour les placer sur le calendrier","Le Gantt, puis le PERT pour vérifier","Peu importe","On ne fait que l'un des deux"],"Le Gantt reprend les dates au plus tôt calculées dans le PERT."],
+["Dans un projet ERP, l'intégrateur qui paramètre la solution est…",["la MOE","la MOA","l'AMOA","le sponsor"],"Il réalise : maîtrise d'œuvre. Le client Aéromeca est la MOA."],
 ["Quelle est la différence entre la charte et le PMP ?",["La charte autorise le projet à haut niveau ; le PMP détaille comment il sera mené, suivi et clôturé","C'est le même document sous deux noms","Le PMP est rédigé avant la charte","La charte contient le planning détaillé"],"La charte lance le projet. Le PMP l'organise et fixe les références périmètre, délai, coût."],
 ["Les trois références (baselines) d'un PMP sont…",["périmètre, délai, coût","risques, qualité, communication","WBS, RACI, Gantt","charte, PMP, PV de recette"],"On mesure tous les écarts par rapport à ces trois références."],
 ["Dans SMART, que veut dire le T ?",["Temporellement défini : une échéance précise","Technique","Testé","Transversal"],"Sans date, impossible de dire si l'objectif est atteint."],
@@ -932,6 +1210,77 @@ if(v==="0")SMs.sel[i]=[];else{const s=SMs.sel[i];SMs.sel[i]=s.includes(v)?s.filt
 $("#smReset").onclick=()=>{SMs.sel=SMX.map(()=>[]);SMs.done=SMX.map(()=>false);SMs.touched=[];renderSmart()};
 renderSmart();
 
+
+/* ---------- OBS exercise ---------- */
+const OBSL=["Pilotage","Direction de projet","Équipe projet","Externe consulté ou informé"];
+const OBSX=[["Mme Laurent, DG",0,"Sponsor, elle préside le comité de pilotage."],["M. Benali, DSI",1,"Chef de projet."],["2 key users de production",2,"Ils réalisent les ateliers et la recette."],["Consultants de l'intégrateur",2,"Ils réalisent le paramétrage : MOE, dans l'équipe projet."],["Prestataire de paie",3,"Hors périmètre, consulté pour l'interface."],["Représentants du personnel",3,"Informés avant le démarrage."]];
+$("#obsEx").innerHTML=OBSX.map((x,i)=>`<div class="row" style="justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line)"><label for="ox${i}">${esc(x[0])}</label><select id="ox${i}"><option value="">—</option>${OBSL.map((l,k)=>`<option value="${k}">${l}</option>`).join("")}</select></div><p class="small mute" id="oe${i}" style="margin:4px 0 0"></p>`).join("");
+$("#obsChk").onclick=()=>{let ok=0;OBSX.forEach((x,i)=>{const s=$("#ox"+i),g=s.value!==""&&+s.value===x[1];s.className=s.value===""?"":g?"ok":"ko";if(g)ok++;$("#oe"+i).textContent=s.value===""?"":(g?"✓ ":"✗ "+OBSL[x[1]]+". ")+x[2]});$("#obsMsg").textContent=`${ok} / ${OBSX.length} justes`;$("#obsMsg").className="msg "+(ok===OBSX.length?"ok":"ko")};
+$("#obsReset").onclick=()=>{OBSX.forEach((x,i)=>{$("#ox"+i).value="";$("#ox"+i).className="";$("#oe"+i).textContent=""});$("#obsMsg").textContent=""};
+
+/* ---------- WBS ---------- */
+$("#wbsGrid").innerHTML=WBS.map(w=>`<div class="wcol"><h4>${w[0]} ${esc(w[1])}</h4><ul>${w[2].map((x,i)=>`<li><code>${w[0]}.${i+1}</code>${esc(x)}</li>`).join("")}</ul></div>`).join("");
+const WBAD=[["1.1 Management de projet",0],["1.2 Besoins exprimés",0],["1.2.1 Ateliers par processus",0],["1.2.2 M. Benali",1,"Une personne n'est pas un livrable : elle va dans l'OBS et le RACI."],["1.3 Intégrateur sélectionné",0],["1.4 Solution paramétrée",0],["1.4.1 Paramétrage, puis recette une fois terminé",1,"« Puis » est une dépendance : l'ordre se met dans le PERT, et la recette a sa propre branche."],["1.4.2 Nettoyage des données",1,"Chevauchement : le nettoyage est déjà dans 1.5.1."],["1.5 Données reprises",0],["1.5.1 Audit et nettoyage des données",0],["1.6 Solution recettée",0],["1.7 Utilisateurs formés",0],["1.8 Démarrage",0],["1.9 Nouvelle paie",1,"La paie est hors périmètre : règle des 100 %, elle ne figure pas dans le WBS."]];
+const WB={sel:new Set(),done:false};
+function renderWB(){$("#wbsBad").innerHTML=WBAD.map((x,i)=>{let c="";if(WB.done){c=x[1]?(WB.sel.has(i)?"good":"miss"):(WB.sel.has(i)?"bad":"")}else if(WB.sel.has(i))c="on";return `<li><button data-wb="${i}" class="${c}" ${WB.done?"disabled":""}>${esc(x[0])}</button></li>`}).join("");
+if(WB.done){const ok=WBAD.filter((x,i)=>x[1]&&WB.sel.has(i)).length,fp=WBAD.filter((x,i)=>!x[1]&&WB.sel.has(i)).length;$("#wbMsg").textContent=`${ok} / 4 erreurs trouvées${fp?`, ${fp} ligne${fp>1?"s":""} correcte${fp>1?"s":""} marquée${fp>1?"s":""} à tort`:""}`;$("#wbMsg").className="msg "+(ok===4&&!fp?"ok":"ko");$("#wbExpl").innerHTML=WBAD.filter(x=>x[1]).map(x=>`<div class="expl"><b>${esc(x[0])}</b> : ${esc(x[2])}</div>`).join("")}else{$("#wbMsg").textContent="";$("#wbExpl").innerHTML=""}}
+$("#wbsBad").addEventListener("click",e=>{const b=e.target.closest("[data-wb]");if(!b||WB.done)return;const i=+b.dataset.wb;WB.sel.has(i)?WB.sel.delete(i):WB.sel.add(i);renderWB()});
+$("#wbChk").onclick=()=>{WB.done=true;renderWB()};$("#wbReset").onclick=()=>{WB.sel.clear();WB.done=false;renderWB()};
+renderWB();
+
+/* ---------- RACI ---------- */
+$("#raciL").innerHTML=[["R","Réalise","Fait le travail. Au moins un par ligne."],["A","Approuve","Rend des comptes et valide. Un seul par ligne."],["C","Consulté","Donne son avis avant. Échange dans les deux sens."],["I","Informé","Tenu au courant après. Sens unique."]].map(l=>`<div class="letter"><b>${l[0]}</b><h3>${l[1]}</h3><p class="mute small">${l[2]}</p></div>`).join("");
+const RROLES=["DG (sponsor)","Chef de projet","Key users","Intégrateur","IT interne"];
+const RLOTS=["1.1 Management de projet","1.2 Besoins exprimés","1.3 Intégrateur sélectionné","1.4 Solution paramétrée","1.5 Données reprises","1.6 Solution recettée","1.7 Utilisateurs formés","1.8 Démarrage"];
+const RSOL=[["C","A/R","I","C","I"],["I","A","R","C","C"],["A","R","C","","C"],["I","A","C","R","C"],["","A","R","R","C"],["I","A","R","C","C"],["I","A","R","C",""],["A","R","C","R","R"]];
+const ROPT=["","R","A","A/R","C","I"];
+let RG=Array.isArray(S.raci)&&S.raci.length===RLOTS.length?S.raci:RLOTS.map((l,i)=>i<2?RSOL[i].slice():RROLES.map(()=>""));
+let RCMP=false;
+function rlint(row){const a=row.filter(v=>v==="A"||v==="A/R").length,r=row.filter(v=>v==="R"||v==="A/R").length;if(!row.some(Boolean))return["","à remplir"];if(a===0)return["e","Il manque le A"];if(a>1)return["e","Un seul A par ligne"];if(r===0)return["e","Personne ne réalise (R)"];return["g","✓ Règles respectées"]}
+function renderRACI(){
+$("#raciT").innerHTML=`<thead><tr><th>Lot du WBS</th>${RROLES.map(r=>`<th>${r}</th>`).join("")}<th>Contrôle</th></tr></thead><tbody>${RLOTS.map((l,i)=>{const L=rlint(RG[i]);return `<tr><td>${esc(l)}</td>${RROLES.map((r,k)=>`<td><select data-ri="${i}" data-rk="${k}" aria-label="${esc(l)}, ${r}" class="${RCMP&&RG[i][k]&&RG[i][k]!==RSOL[i][k]?"diff":""}">${ROPT.map(o=>`<option ${RG[i][k]===o?"selected":""} value="${o}">${o||"—"}</option>`).join("")}</select></td>`).join("")}<td class="${L[0]==="e"?"":"mute"}" style="color:${L[0]==="e"?"var(--ko)":L[0]==="g"?"var(--ok)":""}">${L[1]}</td></tr>`}).join("")}</tbody>`;
+const cols=RROLES.map((r,k)=>RG.filter(row=>row[k]==="R"||row[k]==="A/R").length),aDG=RG.filter(row=>row[0]==="A"||row[0]==="A/R").length;
+const notes=[];cols.forEach((c,k)=>{if(c>=6)notes.push(`${RROLES[k]} réalise ${c} lots sur 8 : surcharge ?`)});if(aDG>=4)notes.push("Le sponsor est A sur la moitié des lots : risque de goulot.");
+$("#raciMsg").textContent=notes.join(" ");$("#raciMsg").className="msg ko"}
+$("#raciT").addEventListener("change",e=>{const s=e.target;if(!s.dataset.ri)return;RG[+s.dataset.ri][+s.dataset.rk]=s.value;S.raci=RG;save();renderRACI()});
+$("#raciCmp").onclick=()=>{RCMP=true;renderRACI();const d=RG.reduce((a,row,i)=>a+row.filter((v,k)=>v&&v!==RSOL[i][k]).length,0),em=RG.reduce((a,row,i)=>a+row.filter((v,k)=>!v&&RSOL[i][k]).length,0);$("#raciMsg").textContent=(d?`${d} case${d>1?"s":""} différente${d>1?"s":""} du corrigé (en jaune), pas forcément fausse${d>1?"s":""} si les règles sont respectées.`:"Aucune case remplie ne diffère du corrigé.")+(em?` ${em} case${em>1?"s":""} encore vide${em>1?"s":""}.`:"");$("#raciMsg").className="msg "+(d?"ko":"ok")};
+$("#raciSol").onclick=()=>{RG=RSOL.map(r=>r.slice());RCMP=false;S.raci=RG;save();renderRACI()};
+$("#raciReset").onclick=()=>{RG=RLOTS.map(()=>RROLES.map(()=>""));RCMP=false;S.raci=RG;save();renderRACI()};
+renderRACI();
+
+/* ---------- PERT big ---------- */
+{const t=ERP.map(r=>({n:r[0],d:r[2],p:r[3]})),s=solve(t),SH=["Cadrage","Besoins","Intégrateur","Paramétrage","Données","Interfaces","Recette","Formation","Bascule"];
+const lv=[];t.forEach((x,i)=>{lv[i]=x.p.length?1+Math.max(...x.p.map(j=>lv[j])):0});
+const nL=Math.max(...lv)+1,cols=[...Array(nL)].map(()=>[]);t.forEach((x,i)=>cols[lv[i]].push(i));
+const W=1060,H=290,bw=136,bh=78,gx=(W-20-bw)/(nL-1),pos=[];
+const yT=H/2-bh-22,yB=H/2+22;cols.forEach((c,l)=>c.forEach(i=>{pos[i]={x:10+l*gx,y:s.TF[i]===0?yT:yB}}));
+let e="",n="";
+t.forEach((x,i)=>x.p.forEach(j=>{const a=pos[j],b=pos[i],x1=a.x+bw,y1=a.y+bh/2,x2=b.x,y2=b.y+bh/2,mx=(x1+x2)/2,c=s.TF[i]===0&&s.TF[j]===0&&s.EF[j]===s.ES[i];
+e+=`<path d="M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2-6},${y2}" fill="none" stroke="${c?"#e8452c":"rgba(200,210,255,.5)"}" stroke-width="${c?3:1.6}" marker-end="url(#pb${c?"c":""})"/>`}));
+t.forEach((x,i)=>{const p=pos[i],c=s.TF[i]===0,cw=bw/3,st=c?"#e8452c":"#4fc1c6",tx=(v,cx,cy,col)=>`<text x="${cx}" y="${cy}" text-anchor="middle" font-size="14" font-weight="700" fill="${col||"#eef1ff"}" style="stroke:none">${v}</text>`;
+n+=`<rect x="${p.x}" y="${p.y}" width="${bw}" height="${bh}" rx="8" fill="${c?"#3a1a2c":"#18265a"}" stroke="${st}" stroke-width="2"/><line x1="${p.x}" y1="${p.y+24}" x2="${p.x+bw}" y2="${p.y+24}" stroke="${st}" stroke-opacity=".5"/><line x1="${p.x}" y1="${p.y+54}" x2="${p.x+bw}" y2="${p.y+54}" stroke="${st}" stroke-opacity=".5"/>`;
+[1,2].forEach(k=>{n+=`<line x1="${p.x+k*cw}" y1="${p.y}" x2="${p.x+k*cw}" y2="${p.y+24}" stroke="${st}" stroke-opacity=".5"/><line x1="${p.x+k*cw}" y1="${p.y+54}" x2="${p.x+k*cw}" y2="${p.y+bh}" stroke="${st}" stroke-opacity=".5"/>`});
+n+=tx(s.ES[i],p.x+cw/2,p.y+17)+tx(x.d,p.x+cw*1.5,p.y+17,"#f7e463")+tx(s.EF[i],p.x+cw*2.5,p.y+17)+`<text x="${p.x+bw/2}" y="${p.y+44}" text-anchor="middle" font-size="14" fill="#eef1ff" style="stroke:none">${x.n} · ${SH[i]}</text>`+tx(s.LS[i],p.x+cw/2,p.y+71)+tx(s.TF[i],p.x+cw*1.5,p.y+71,c?"#ff9b85":"#4fc1c6")+tx(s.LF[i],p.x+cw*2.5,p.y+71)});
+$("#pertBig").innerHTML=`<defs><marker id="pb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="rgba(200,210,255,.7)"/></marker><marker id="pbc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#e8452c"/></marker></defs>${e}${n}`}
+function pCalc(){const o=parseFloat($("#po").value.replace(",",".")),m=parseFloat($("#pm").value.replace(",",".")),pe=parseFloat($("#pp").value.replace(",","."));
+if([o,m,pe].some(isNaN)){$("#pRes").textContent="Saisis les trois valeurs.";return}if(!(o<=m&&m<=pe)){$("#pRes").textContent="Il faut optimiste ≤ plus probable ≤ pessimiste.";return}
+const d=(o+4*m+pe)/6,sd=(pe-o)/6,f=v=>(Math.round(v*100)/100).toString().replace(".",",");
+$("#pRes").textContent=`Durée = (${f(o)} + 4 × ${f(m)} + ${f(pe)}) / 6 = ${f(d)}. Écart-type = (${f(pe)} − ${f(o)}) / 6 = ${f(sd)}. Environ 95 % de chances de finir entre ${f(d-2*sd)} et ${f(d+2*sd)}.`}
+["#po","#pm","#pp"].forEach(id=>$(id).addEventListener("input",pCalc));pCalc();
+
+/* ---------- GANTT big ---------- */
+let GM="tot";
+function renderGantt(){const t=ERP.map(r=>({n:r[0],l:r[1],d:r[2],p:r[3]})),s=solve(t),T=36,pc=v=>(v/T*100)+"%";
+const d0=new Date(2027,0,4),wk=dt=>(dt-d0)/6048e5,MO=["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept."];
+const months=MO.map((m,k)=>[m,wk(new Date(2027,k,1))]).map(([m,v])=>[m,Math.max(0,v)]);
+const bg=`${months.map(([m,v])=>`<div class="gbg m" style="left:${pc(v)}"></div>`).join("")}<div class="gbg close" style="left:${pc(30)};width:${pc(3)}"></div><div class="gbg dl" style="left:${pc(wk(new Date(2027,8,1)))}"></div>`;
+const MS=[["J1 Charte validée",2],["J2 Contrat intégrateur",7],["J3 Besoins validés",8],["J4 Go / no-go",26],["J5 Démarrage",27]];
+$("#gBig").innerHTML=`<div class="gr"><span></span><div class="ghead">${months.map(([m,v])=>`<span style="left:${pc(v)}">${m}</span>`).join("")}</div></div>`+
+t.map((x,i)=>{const c=s.TF[i]===0,st=GM==="tot"?s.ES[i]:s.LS[i];return `<div class="gr"><span><b>${x.n}</b> ${esc(x.l)}</span><div class="gt">${bg}<i class="${c?"c":""}" style="left:${pc(st)};width:${pc(x.d)}" title="Semaines ${st} à ${st+x.d}"></i>${!c&&GM==="tot"?`<i class="f" style="left:${pc(s.EF[i])};width:${pc(s.TF[i])}"></i>`:""}${!c&&GM==="tard"?`<i class="f" style="left:${pc(s.ES[i])};width:${pc(s.TF[i])}"></i>`:""}</div></div>`}).join("")+
+MS.map(m=>`<div class="gr"><span class="mute">◆ ${m[0]}</span><div class="gt">${bg}<em style="left:${pc(m[1])}"></em></div></div>`).join("")}
+$("#gMode").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;GM=b.dataset.g;$("#gMode").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));renderGantt()});
+renderGantt();
+
 /* ---------- TIMER ---------- */
 const TM={left:7200,run:false,h:null};
 const fmt=x=>`${Math.floor(x/3600)}:${String(Math.floor(x%3600/60)).padStart(2,"0")}:${String(x%60).padStart(2,"0")}`;
@@ -945,10 +1294,12 @@ $("#tmReset").onclick=()=>{clearInterval(TM.h);TM.run=false;TM.left=7200;$("#tmG
 function renderProg(){
 const known=FC.filter((c,i)=>S.known[i]===1).length,ck=Object.values(S.chk).filter(Boolean).length,full=R.filter(r=>lint(r)[0][0]==="g").length;
 $("#prog").innerHTML=`<a class="tile" href="#cartes"><b>${known}/${FC.length}</b><span>flashcards sues</span></a><a class="tile" href="#quiz"><b>${S.best!=null?S.best+" %":"—"}</b><span>meilleur score au quiz complet</span></a><a class="tile" href="#planning"><b>${S.cpOk}</b><span>réseaux réussis sans aide</span></a><a class="tile" href="#risques"><b>${full}/${R.length}</b><span>risques complets dans ton registre</span></a><a class="tile" href="#pmp"><b>${PMP.filter((p,i)=>S.pmp[i]).length}/${PMP.length}</b><span>étapes du PMP maîtrisées</span></a><a class="tile" href="#smart"><b>${S.smartBest}/${SMX.length}</b><span>meilleur score à l'exercice SMART</span></a><a class="tile" href="#plan"><b>${ck}/${CHK1.length+CHK2.length}</b><span>points de la checklist cochés</span></a>`}
-const VIEWS=["plan","cours","pmp","smart","cartes","quiz","planning","risques","examen"];
-function route(){const h=location.hash.slice(1),v=VIEWS.includes(h)?h:"plan";
+const SUBS=["pmp","smart","obs","wbs","raci","pert","gantt"];
+const VIEWS=["plan","cours","meth","cartes","quiz","planning","risques","examen"];
+function route(){const h=location.hash.slice(1),v=SUBS.includes(h)?"meth":VIEWS.includes(h)?h:"plan";
+if(v==="meth"){SUBS.forEach(x=>$("#t-"+x).classList.toggle("on",x===h));document.querySelectorAll(".chain [data-t]").forEach(a=>a.classList.toggle("on",a.dataset.t===h))}
 VIEWS.forEach(x=>$("#v-"+x).classList.toggle("on",x===v));
-document.querySelectorAll("#tabs a").forEach(a=>{const on=a.getAttribute("href")==="#"+v;a.classList.toggle("on",on);if(on)a.scrollIntoView({block:"nearest",inline:"nearest"})});
+document.querySelectorAll("#tabs a").forEach(a=>{const on=a.getAttribute("href")==="#"+(v==="meth"?"pmp":v);a.classList.toggle("on",on);if(on)a.scrollIntoView({block:"nearest",inline:"nearest"})});
 window.scrollTo(0,0);
 if(v==="planning"){sizeNet();requestAnimationFrame(drawNet)}if(v==="risques")requestAnimationFrame(renderMat)}
 window.addEventListener("hashchange",route);

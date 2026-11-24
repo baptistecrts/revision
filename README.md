@@ -6,6 +6,7 @@ App de révision pour l'étude de cas du bloc Management de projet (CESI) : **ou
 
 - **Plan 2 h** : découpage de l'épreuve, checklist de la copie, progression
 - **Cours** : charte, WBS + RACI, planning (PERT, marges, chemin critique, Gantt), analyse de risque
+- **Méthodes** : chaque outil pas à pas avec exemple et exercice : PMP, SMART, OBS, WBS, RACI, PERT, Gantt
 - **Flashcards** (37) et **Quiz** (26 questions expliquées)
 - **Chemin critique** : réseaux générés au hasard, correction automatique, Gantt
 - **Analyse de risque** : registre avec contrôle des oublis et matrice avant → après
