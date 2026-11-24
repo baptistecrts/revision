@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Révision étude de cas</title>
+<meta name="theme-color" content="#0b1433">
+<meta name="description" content="Révision de l'étude de cas Management de projet : charte, WBS, planning, analyse de risque.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Révision">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@700;800&family=Red+Hat+Text:wght@400;500;700&display=swap">
+<style>
+/* VOICE everyday study tool, calm and dense, built to be used at 1 a.m. on a phone
+   IDEA a weather chart of project risk: the 1-16 criticity scale is the colour scale of the whole app
+   PICTURE the 2-hour exam band on the home screen; the live risk matrix and the PERT network in the exercises
+   COLOUR navy ground #0b1433, scale blue #3b4fd8, teal #4fc1c6, yellow #f7e463, red #e8452c
+   TYPE Red Hat Display 800 for titles, Red Hat Text for everything else
+   LAYOUT sticky tab bar; one view at a time; two columns above 900px, one column on phones */
+:root{color-scheme:dark;--bg:#0b1433;--panel:#121e4a;--panel2:#18265a;--line:rgba(220,228,255,.14);--ink:#eef1ff;--mute:#aab4dc;--b:#3b4fd8;--t:#4fc1c6;--y:#f7e463;--r:#e8452c;--ok:#4fc1c6;--ko:#ff7a5e}
+:root[data-theme=light],:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0;background:var(--bg);color:var(--ink)}
+body{font:16px/1.55 "Red Hat Text",system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:"Red Hat Display",system-ui,sans-serif;letter-spacing:-.02em;line-height:1.08;margin:0 0 .5em;text-wrap:balance}
+h1{font-size:clamp(30px,5vw,46px);font-weight:800}
+h2{font-size:clamp(22px,3vw,30px);font-weight:800;margin-top:.2em}
+h3{font-size:19px;font-weight:700;margin-top:1.2em}
+p{margin:0 0 .8em}
+a{color:var(--t)}
+.band{padding:clamp(22px,4vw,48px) max(4vw,16px)}
+.wrap{max-width:1180px;margin:0 auto}
+.lead{font-size:17px;color:var(--mute);max-width:68ch}
+.mute{color:var(--mute)}
+.small{font-size:14px}
+nav{padding-top:env(safe-area-inset-top,0px);position:sticky;top:0;z-index:5;background:rgba(11,20,51,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .scroll{display:flex;gap:4px;overflow-x:auto;padding:8px max(4vw,12px);scrollbar-width:none;max-width:1220px;margin:0 auto}
+nav a{flex:none;color:var(--mute);text-decoration:none;padding:10px 14px;border-radius:999px;font-weight:500;font-size:15px;min-height:44px;display:flex;align-items:center}
+nav a.on{background:var(--y);color:#0b1433;font-weight:700}
+.view{display:none}.view.on{display:block}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+@media(max-width:900px){.grid2{grid-template-columns:minmax(0,1fr)}}
+button,.btn{font:inherit;font-weight:700;min-height:44px;padding:10px 16px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);cursor:pointer}
+button:hover{border-color:var(--t)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--y);outline-offset:2px}
+button.pri{background:var(--y);color:#0b1433;border-color:var(--y)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+input,select,textarea{font:inherit;font-size:16px;color:var(--ink);background:#0d1840;border:1px solid rgba(220,228,255,.28);border-radius:8px;padding:8px 10px;min-height:44px}
+textarea{width:100%;min-height:64px;resize:vertical}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mute);font-weight:500}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.scroll{overflow-x:auto}
+ul.chk{list-style:none;padding:0;margin:0}
+ul.chk li{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line)}
+ul.chk input{min-height:0;width:22px;height:22px;flex:none;margin-top:2px;accent-color:var(--y)}
+ul.chk label{cursor:pointer}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.5em,1fr));gap:12px;margin-top:18px}
+.tile{display:block;text-decoration:none;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.tile b{display:block;font-family:"Red Hat Display";font-size:28px;font-weight:800;line-height:1.1}
+.tile span{color:var(--mute);font-size:14px}
+.clock{margin-top:22px}
+.bar{display:flex;height:64px;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.bar div{height:100%;display:flex;align-items:flex-end;padding:6px;font-size:13px;font-weight:700;color:#0b1433;white-space:nowrap;overflow:hidden}
+.ticks{display:flex;justify-content:space-between;font-size:13px;color:var(--mute);margin-top:4px;font-variant-numeric:tabular-nums}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(15em,1fr));gap:6px 18px;margin-top:14px;padding:0;list-style:none}
+.legend li{display:flex;gap:10px;align-items:baseline}
+.legend i{width:12px;height:12px;border-radius:3px;flex:none;transform:translateY(1px)}
+.legend time{font-variant-numeric:tabular-nums;color:var(--mute);white-space:nowrap;min-width:6.5em}
+.flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:12px}
+.flow div{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;position:relative}
+.flow b{display:block;font-family:"Red Hat Display";font-size:18px}
+.flow .hot{border-color:var(--y);background:#231f3d}
+.flow .stop{grid-column:1/-1;background:transparent;border:1px dashed var(--ko);color:var(--ko);font-weight:700;text-align:center;padding:8px}
+@media(max-width:700px){.flow{grid-template-columns:minmax(0,1fr)}}
+details{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin:10px 0}
+summary{cursor:pointer;padding:14px 16px;font-family:"Red Hat Display";font-weight:700;font-size:18px;min-height:44px}
+details>.in{padding:0 16px 16px}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 6px}
+.toc a{flex:none;padding:8px 12px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--ink);font-size:15px}
+.formula{background:#0d1840;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-variant-numeric:tabular-nums;margin:10px 0}
+.tree,.tree ul{list-style:none;margin:0;padding-left:18px}
+.tree{padding-left:0}
+.tree li{position:relative;padding:3px 0 3px 14px;border-left:1px solid var(--line)}
+.tree li::before{content:"";position:absolute;left:0;top:15px;width:10px;border-top:1px solid var(--line)}
+.tree code{color:var(--y);font-family:inherit;font-weight:700;margin-right:6px}
+.zone{display:inline-block;padding:2px 8px;border-radius:6px;font-weight:700;font-size:14px;white-space:nowrap}
+.z1{background:var(--b);color:#fff}.z2{background:var(--t);color:#0b1433}.z3{background:var(--y);color:#0b1433}.z4{background:var(--r);color:#fff}
+.warn{border:1px solid var(--y);background:#1f2142;border-radius:12px;padding:14px 16px;margin:12px 0}
+/* flashcards */
+.card{min-height:280px;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:28px 22px;border-radius:18px;background:linear-gradient(160deg,#1a2a66,#121e4a);border:1px solid var(--line);cursor:pointer;user-select:none}
+.card .q{font-family:"Red Hat Display";font-size:clamp(22px,3.4vw,30px);font-weight:800;line-height:1.15}
+.card .a{font-size:17px;line-height:1.55;text-align:left;max-width:60ch;margin:0 auto}
+.card.back{background:linear-gradient(160deg,#20306e,#16224f);border-color:var(--t)}
+.card .tag{font-size:14px;color:var(--mute);margin-bottom:12px}
+.meter{height:8px;background:#0d1840;border-radius:8px;overflow:hidden;margin:10px 0}
+.meter div{height:100%;background:var(--t)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{min-height:40px;padding:6px 12px;font-weight:500}
+.seg button.on{background:var(--t);color:#0b1433;border-color:var(--t);font-weight:700}
+/* quiz */
+.opts{display:grid;gap:8px;margin:14px 0}
+.opts button{text-align:left;font-weight:500;padding:12px 14px}
+.opts button.good{background:#163d4a;border-color:var(--ok)}
+.opts button.bad{background:#4a1f2a;border-color:var(--ko)}
+.expl{border-left:3px solid var(--t);padding:6px 12px;margin:10px 0;color:var(--ink)}
+/* planning */
+.fig{position:relative;min-height:240px}
+.fig>svg{position:absolute;inset:0;width:100%;height:100%}
+svg text{paint-order:stroke;stroke:var(--panel);stroke-width:4px}
+td input{width:5.2em;min-height:40px;padding:6px 8px;text-align:right}
+td input.ok{border-color:var(--ok);background:#123447}
+td input.ko{border-color:var(--ko);background:#3d1a26}
+tr.crit td:first-child{color:var(--y);font-weight:700}
+.gantt{display:grid;gap:6px;margin-top:8px}
+.grow{display:grid;grid-template-columns:2.2em minmax(0,1fr);gap:8px;align-items:center;font-size:14px}
+.gtrack{position:relative;height:24px;background:#0d1840;border-radius:6px}
+.gtrack i{position:absolute;top:3px;bottom:3px;border-radius:4px;background:var(--b)}
+.gtrack i.c{background:var(--r)}
+.gtrack i.f{background:repeating-linear-gradient(45deg,rgba(79,193,198,.55) 0 4px,transparent 4px 8px);border:1px solid rgba(79,193,198,.6)}
+.msg{font-weight:700;margin:10px 0}
+.msg.ok{color:var(--ok)}.msg.ko{color:var(--ko)}
+/* risks */
+.rcards{display:grid;gap:12px}
+.rcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.rcard .top{display:grid;grid-template-columns:3em minmax(0,1fr) auto;gap:8px;align-items:center}
+.rcard .top input{width:100%}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5em,1fr));gap:8px;margin-top:10px}
+.rgrid label{display:flex;flex-direction:column;font-size:14px;color:var(--mute);gap:4px}
+.rgrid select,.rgrid input{width:100%}
+.lint{list-style:none;padding:0;margin:10px 0 0;font-size:14px}
+.lint li{padding:3px 0}
+.lint .e{color:var(--ko)}.lint .g{color:var(--ok)}
+.sticky{position:sticky;top:64px}
+@media(max-width:900px){.sticky{position:static}}
+.sum{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}
+.sum div{background:#0d1840;border-radius:10px;padding:10px}
+.sum b{font-family:"Red Hat Display";font-size:22px}
+.timer{font-family:"Red Hat Display";font-weight:800;font-size:clamp(52px,10vw,88px);line-height:1;font-variant-numeric:tabular-nums}
+@media(max-width:600px){table{font-size:13px}th,td{padding:6px 5px}.stack thead{display:none}.stack tr{display:grid;padding-block:8px;border-bottom:1px solid var(--line)}.stack td{border:0;display:grid;grid-template-columns:7.2em minmax(0,1fr);gap:8px;padding:3px 0}.stack td::before{content:attr(data-l);color:var(--mute);font-size:13px}}
+@media(prefers-reduced-motion:no-preference){.card{transition:transform .25s}.card:active{transform:scale(.985)}}
+</style>
+</head>
+<body>
+<nav><div class="scroll" id="tabs">
+<a href="#plan">Plan 2 h</a><a href="#cours">Cours</a><a href="#cartes">Flashcards</a><a href="#quiz">Quiz</a><a href="#planning">Chemin critique</a><a href="#risques">Analyse de risque</a><a href="#examen">Sujet blanc</a>
+</div></nav>
+
+<!-- ============ PLAN ============ -->
+<section class="view" id="v-plan">
+<div class="band"><div class="wrap">
+<h1>Étude de cas : 2 h, deux parties, une méthode</h1>
+<p class="lead">Partie 1 : outils de management (charte projet, WBS, planning). Partie 2 : analyse de risque. Le prof l'a dit : une analyse qui liste et note les risques sans proposer d'actions puis re-noter ne sert presque à rien.</p>
+<div class="clock">
+<div class="bar" id="bar"></div>
+<div class="ticks"><span>0</span><span>30 min</span><span>1 h</span><span>1 h 30</span><span>2 h</span></div>
+<ul class="legend" id="legend"></ul>
+<p class="small mute" style="margin-top:10px">Découpage conseillé si le sujet ne donne pas de barème : environ moitié du temps par partie. Adapte dès la lecture si le barème penche d'un côté.</p>
+</div>
+<div class="tiles" id="prog"></div>
+</div></div>
+
+<div class="band" style="background:#0e1a44"><div class="wrap">
+<h2>En partie 2, va jusqu'au bout de la boucle</h2>
+<p class="lead">La plupart des copies s'arrêtent après la matrice. Les points se gagnent sur les deux dernières étapes.</p>
+<div class="flow">
+<div><b>1. Identifier</b><span class="small mute">cause → événement → conséquence</span></div>
+<div><b>2. Évaluer</b><span class="small mute">P × G, matrice avant</span></div>
+<div class="hot"><b>3. Traiter</b><span class="small">stratégie, action, responsable, coût, échéance</span></div>
+<div class="hot"><b>4. Re-noter</b><span class="small">P' × G', matrice après</span></div>
+<div><b>5. Suivre</b><span class="small mute">revues, indicateurs, contingence</span></div>
+<div class="stop">Ici s'arrête la copie moyenne (après l'étape 2) : ne t'arrête pas là</div>
+</div>
+</div></div>
+
+<div class="band"><div class="wrap">
+<h2>Ce que ta copie doit contenir</h2>
+<p class="mute">Coche au fur et à mesure de tes entraînements. C'est aussi ta checklist de relecture le jour J.</p>
+<div class="grid2">
+<div class="panel"><h3 style="margin-top:0">Partie 1 · Outils de management</h3><ul class="chk" id="chk1"></ul></div>
+<div class="panel"><h3 style="margin-top:0">Partie 2 · Analyse de risque</h3><ul class="chk" id="chk2"></ul></div>
+</div>
+</div></div>
+</section>
+
+<!-- ============ COURS ============ -->
+<section class="view" id="v-cours">
+<div class="band"><div class="wrap">
+<h1>Le cours, en version utile pour l'examen</h1>
+<div class="toc"><a href="#cours" data-go="c-charter">Charte projet</a><a href="#cours" data-go="c-wbs">WBS et RACI</a><a href="#cours" data-go="c-time">Planning</a><a href="#cours" data-go="c-risk">Analyse de risque</a></div>
+
+<h2 id="c-charter" style="margin-top:28px">Charte projet : une page qui dit pourquoi, quoi, qui, quand, combien</h2>
+<p>Le project charter autorise officiellement le projet et donne son autorité au chef de projet. Il est validé, idéalement signé, par le sponsor. À l'examen, fais un tableau : rubrique, contenu, valeurs tirées du sujet.</p>
+<div class="scroll"><table class="stack">
+<thead><tr><th>Rubrique</th><th>Ce qu'on écrit</th><th>Piège à éviter</th></tr></thead>
+<tbody id="charterT"></tbody></table></div>
+
+<h2 id="c-wbs" style="margin-top:34px">WBS : tout le travail, découpé en livrables, sans notion de temps</h2>
+<div class="grid2">
+<div>
+<ul>
+<li><b>Orienté livrables</b> : des noms (« Données reprises »), pas des verbes en haut de l'arbre.</li>
+<li><b>Règle des 100 %</b> : les enfants couvrent tout le parent, rien de plus, rien de moins. Ce qui est hors périmètre n'apparaît pas.</li>
+<li><b>Pas de chevauchement</b> : chaque travail est dans une seule branche.</li>
+<li><b>Lots de travail</b> au dernier niveau : estimables (durée, coût) et confiés à un seul responsable. Repère : 8 à 80 h.</li>
+<li><b>Codification</b> 1, 1.1, 1.1.1 : le code est repris dans le planning, le budget et le registre des risques.</li>
+<li><b>Branche « Management de projet »</b> : toujours présente (pilotage, comités, reporting, risques).</li>
+<li><b>Dictionnaire du WBS</b> : une fiche par lot (description, livrable, responsable, durée, coût, critère d'acceptation).</li>
+<li>Le WBS ne contient <b>ni ordre ni dépendance</b>. C'est le planning qui ordonne.</li>
+</ul>
+</div>
+<div class="panel">
+<p class="small mute" style="margin-top:0">Exemple sur le sujet blanc (ERP), 3 niveaux</p>
+<ul class="tree" id="wbsTree"></ul>
+</div>
+</div>
+<h3>RACI : qui fait quoi sur chaque lot</h3>
+<p>Croise les lots du WBS (lignes) et les acteurs de l'OBS (colonnes). <b>R</b> réalise, <b>A</b> rend des comptes et valide (un seul A par ligne), <b>C</b> consulté avant, <b>I</b> informé après.</p>
+<div class="scroll"><table>
+<thead><tr><th>Lot</th><th>Sponsor (DG)</th><th>Chef de projet</th><th>Key users</th><th>Intégrateur</th></tr></thead>
+<tbody><tr><td>1.2 Besoins exprimés</td><td>I</td><td>A</td><td>R</td><td>C</td></tr><tr><td>1.3 Intégrateur choisi</td><td>A</td><td>R</td><td>C</td><td></td></tr><tr><td>1.6 Solution recettée</td><td>I</td><td>A</td><td>R</td><td>C</td></tr><tr><td>1.8 Démarrage (go/no-go)</td><td>A</td><td>R</td><td>C</td><td>R</td></tr></tbody></table></div>
+
+<h2 id="c-time" style="margin-top:34px">Planning : du WBS au chemin critique, puis au Gantt</h2>
+<ol>
+<li><b>Lister les tâches</b> à partir des lots du WBS.</li>
+<li><b>Estimer les durées</b> : analogie, paramétrique ou estimation à 3 points.</li>
+<li><b>Poser les dépendances</b> (antécédents) et les contraintes de dates (congés, fermetures).</li>
+<li><b>Réseau PERT</b> : passe avant (dates au plus tôt), passe arrière (dates au plus tard).</li>
+<li><b>Marges et chemin critique</b>, puis comparer la durée à l'échéance.</li>
+<li><b>Gantt</b> avec jalons (losanges, durée 0) et dates calendaires réelles.</li>
+<li><b>Ajuster</b> si ça ne tient pas : compression ou réduction de périmètre, à argumenter.</li>
+</ol>
+<div class="formula">
+Durée PERT = (O + 4M + P) / 6 &nbsp;·&nbsp; écart-type = (P − O) / 6<br>
+Début au plus tôt = max(fins au plus tôt des antécédents)<br>
+Fin au plus tard = min(débuts au plus tard des successeurs)<br>
+Marge totale = début au plus tard − début au plus tôt<br>
+Marge libre = min(débuts au plus tôt des successeurs) − fin au plus tôt<br>
+Chemin critique = tâches à marge totale nulle = plus long chemin
+</div>
+<div class="scroll"><table class="stack">
+<thead><tr><th>Lien</th><th>Sens</th><th>Exemple</th></tr></thead>
+<tbody>
+<tr><td data-l="Lien"><b>FS</b> fin → début</td><td data-l="Sens">B commence quand A est fini (90 % des cas)</td><td data-l="Exemple">Recette après paramétrage</td></tr>
+<tr><td data-l="Lien"><b>SS</b> début → début</td><td data-l="Sens">B commence quand A commence</td><td data-l="Exemple">Rédaction des supports dès le début du paramétrage</td></tr>
+<tr><td data-l="Lien"><b>FF</b> fin → fin</td><td data-l="Sens">B finit quand A finit</td><td data-l="Exemple">Manuel terminé avec les tests</td></tr>
+<tr><td data-l="Lien"><b>SF</b> début → fin</td><td data-l="Sens">B finit quand A commence (rare)</td><td data-l="Exemple">Ancien système arrêté au démarrage du nouveau</td></tr>
+</tbody></table></div>
+<p class="small mute">Avance (lead) et retard (lag) décalent un lien : « FS + 1 semaine » pour un temps de séchage ou de validation.</p>
+<h3>Si le planning dépasse l'échéance</h3>
+<ul>
+<li><b>Crashing</b> : ajouter des ressources sur des tâches <i>critiques</i>. Coûte plus cher. Inutile sur une tâche non critique.</li>
+<li><b>Fast-tracking</b> : faire en parallèle ce qui était en séquence. Gratuit mais augmente le risque de reprise.</li>
+<li><b>Réduire le périmètre</b> ou décaler un lot après le démarrage, à faire valider par le sponsor.</li>
+</ul>
+
+<h2 id="c-risk" style="margin-top:34px">Analyse de risque : identifier, évaluer, traiter, re-noter, suivre</h2>
+<div class="warn"><b>Le message du prof.</b> Ne te contente pas de lister et quantifier : propose une solution pour chaque risque important, puis re-quantifie. Sans ça, l'analyse n'a pas d'intérêt pour le projet.</div>
+<div class="grid2">
+<div>
+<h3 style="margin-top:0">1. Identifier</h3>
+<p>Un risque est un événement <b>incertain et futur</b> qui, s'il survient, touche le coût, le délai ou la qualité. Un fait déjà arrivé est un <b>problème</b>, pas un risque.</p>
+<div class="formula">« À cause de [cause], [événement] peut survenir, ce qui entraînerait [conséquence chiffrée]. »</div>
+<p>Outils : brainstorming, retours d'expérience, hypothèses de la charte (chacune est un risque potentiel), tâches du chemin critique, <b>Ishikawa 5M/6M</b> (Main d'œuvre, Matériel, Méthodes, Matière, Milieu, Mesure), ou grille <b>TOHE</b> (Technique, Organisationnel, Humain, Environnement).</p>
+<p>Dans un sujet, chaque donnée « bizarre » est un risque caché : disponibilité partielle, fournisseur pas encore choisi, historique d'échec, période de fermeture, données anciennes.</p>
+</div>
+<div>
+<h3 style="margin-top:0">2. Évaluer</h3>
+<p>Fixe tes échelles <b>avec des seuils chiffrés tirés du sujet</b>, puis Criticité = Probabilité × Gravité.</p>
+<div class="scroll"><table>
+<thead><tr><th class="n">Note</th><th>Probabilité</th><th>Gravité (exemple)</th></tr></thead>
+<tbody>
+<tr><td class="n">1</td><td>Rare, moins de 10 %</td><td>Moins d'1 semaine ou 5 k€</td></tr>
+<tr><td class="n">2</td><td>Possible, 10 à 30 %</td><td>1 à 2 semaines ou 5 à 20 k€</td></tr>
+<tr><td class="n">3</td><td>Probable, 30 à 60 %</td><td>2 à 4 semaines ou 20 à 40 k€</td></tr>
+<tr><td class="n">4</td><td>Très probable, plus de 60 %</td><td>Plus de 4 semaines, plus de 40 k€ ou échéance ratée</td></tr>
+</tbody></table></div>
+<p style="margin-top:10px">Gravité notée sur coût, délai et qualité : garde la note la plus haute. Zones : <span class="zone z1">1-3 acceptable</span> <span class="zone z2">4-6 à surveiller</span> <span class="zone z3">8-9 important</span> <span class="zone z4">12-16 critique</span></p>
+<p class="small mute">Même score ne veut pas dire même risque : 4 × 1 (fréquent, bénin) se corrige dans le processus, 1 × 4 (rare, grave) demande un plan de secours. Départage les égalités avec la détectabilité.</p>
+</div>
+</div>
+<h3>3. Traiter : une stratégie et une action concrète par risque important</h3>
+<div class="scroll"><table class="stack">
+<thead><tr><th>Stratégie</th><th>Ce qu'elle fait baisser</th><th>Exemple</th></tr></thead>
+<tbody>
+<tr><td data-l="Stratégie"><b>Éviter</b></td><td data-l="Effet">Supprime la cause : le risque disparaît ou P tombe à 1</td><td data-l="Exemple">Renoncer aux développements spécifiques, rester sur le standard</td></tr>
+<tr><td data-l="Stratégie"><b>Réduire, prévention</b></td><td data-l="Effet">La probabilité</td><td data-l="Exemple">Audit et nettoyage des données dès le mois 1</td></tr>
+<tr><td data-l="Stratégie"><b>Réduire, protection</b></td><td data-l="Effet">La gravité</td><td data-l="Exemple">Plan de retour arrière prêt avant la bascule</td></tr>
+<tr><td data-l="Stratégie"><b>Transférer</b></td><td data-l="Effet">La gravité pour le projet (le risque passe à un tiers)</td><td data-l="Exemple">Pénalités de retard au contrat, assurance</td></tr>
+<tr><td data-l="Stratégie"><b>Accepter</b></td><td data-l="Effet">Rien : on surveille, avec réserve et plan de contingence</td><td data-l="Exemple">Risque faible ou action plus chère que le risque</td></tr>
+</tbody></table></div>
+<p style="margin-top:10px">Chaque action a : un <b>responsable</b>, une <b>échéance</b>, un <b>coût</b>, et si possible un <b>indicateur</b>. Vérifie que le coût de l'action reste inférieur à l'exposition qu'elle évite (exposition = probabilité en % × impact en € ou en jours). Signale les <b>risques secondaires</b> créés par une action (sous-traiter crée une dépendance fournisseur).</p>
+<h3>4. Re-noter : le risque résiduel</h3>
+<p>Après action, nouvelle note P' × G'. Montre la matrice <b>avant</b> et la matrice <b>après</b>. Un risque encore à 12 ou plus demande une action de plus, une escalade au sponsor, ou une acceptation justifiée avec contingence. Fais le total du coût des actions et compare-le à la réserve du budget.</p>
+<h3>5. Suivre</h3>
+<ul>
+<li>Registre des risques mis à jour à chaque comité de pilotage, chaque risque a un propriétaire.</li>
+<li>Indicateurs d'alerte (KRI) et <b>déclencheurs</b> des plans de contingence : « si à S10 la migration à blanc a plus de 2 % d'erreurs, on lance le plan B ».</li>
+<li>Nouveaux risques ajoutés, risques passés clôturés.</li>
+</ul>
+<p class="small mute">Colonnes d'un registre complet : ID · lot WBS · cause → événement → conséquence · P · G · C · stratégie · action · responsable · échéance · coût · P' · G' · C' · déclencheur / contingence · statut.</p>
+</div></div>
+</section>
+
+<!-- ============ FLASHCARDS ============ -->
+<section class="view" id="v-cartes">
+<div class="band"><div class="wrap" style="max-width:820px">
+<h1>Flashcards</h1>
+<div class="seg" id="deck"></div>
+<div class="meter"><div id="fcMeter"></div></div>
+<p class="small mute" id="fcInfo"></p>
+<div class="card" id="card" tabindex="0" role="button" aria-label="Retourner la carte"></div>
+<div class="row" style="margin-top:12px;justify-content:space-between">
+<div class="row"><button id="fcPrev" aria-label="Carte précédente">←</button><button id="fcNext" aria-label="Carte suivante">→</button></div>
+<div class="row"><button id="fcBad">À revoir</button><button class="pri" id="fcGood">Je savais</button></div>
+</div>
+<p class="small mute" style="margin-top:10px">Touche la carte ou appuie sur Espace pour la retourner. Les cartes « à revoir » restent dans le paquet « À revoir ».</p>
+</div></div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section class="view" id="v-quiz">
+<div class="band"><div class="wrap" style="max-width:820px">
+<h1>Quiz</h1>
+<div id="quizBox"></div>
+</div></div>
+</section>
+
+<!-- ============ PLANNING ============ -->
+<section class="view" id="v-planning">
+<div class="band"><div class="wrap">
+<h1>Chemin critique : calcule, vérifie, recommence</h1>
+<p class="lead">Remplis pour chaque tâche son début au plus tôt et sa marge totale, puis la durée du projet. Nouveau réseau à chaque clic.</p>
+<div class="panel" style="margin-bottom:14px"><div class="fig" id="netFig"><svg id="net" role="img" aria-label="Réseau des tâches"></svg></div></div>
+<div class="grid2">
+<div class="panel">
+<div class="scroll"><table id="cpT"></table></div>
+<div class="row" style="margin-top:12px"><label for="cpD" class="mute">Durée du projet</label><input id="cpD" inputmode="numeric" style="width:6em"><span class="mute" id="cpU"></span></div>
+<div class="msg" id="cpMsg"></div>
+<div class="row" style="margin-top:8px"><button class="pri" id="cpCheck">Vérifier</button><button id="cpSol">Solution</button><button id="cpNew">Nouveau réseau</button><button id="cpErp">Réseau du sujet blanc</button></div>
+</div>
+<div class="panel" id="cpSolBox"><h3 style="margin-top:0">Méthode</h3>
+<ol class="small">
+<li>Passe avant, dans l'ordre : une tâche sans antécédent démarre à 0, sinon au <b>max</b> des fins au plus tôt de ses antécédents.</li>
+<li>Durée du projet = la plus grande fin au plus tôt.</li>
+<li>Passe arrière, en partant de la fin : fin au plus tard = <b>min</b> des débuts au plus tard des successeurs (ou la durée du projet si aucun successeur).</li>
+<li>Marge totale = début au plus tard − début au plus tôt. Les tâches à 0 forment le chemin critique.</li>
+</ol>
+<p class="small mute">La solution détaillée (dates au plus tard, marges libres, Gantt) s'affiche ici.</p>
+</div>
+</div>
+</div></div>
+</section>
+
+<!-- ============ RISQUES ============ -->
+<section class="view" id="v-risques">
+<div class="band"><div class="wrap">
+<h1>Registre des risques : traite, puis re-note</h1>
+<p class="lead">Exemple pré-rempli sur le sujet blanc. Deux risques sont incomplets : complète-les, les remarques sous chaque carte te disent ce qui manque. La matrice montre le déplacement avant → après.</p>
+<div class="grid2">
+<div>
+<div class="sticky">
+<div class="panel">
+<div class="seg" id="mMode" style="margin-bottom:8px"><button data-m="both" class="on">Avant → après</button><button data-m="before">Avant</button><button data-m="after">Après</button></div>
+<div class="fig" style="min-height:330px"><svg id="mat" role="img" aria-label="Matrice de criticité"></svg></div>
+<div class="sum" id="rSum"></div>
+</div>
+<div class="row" style="margin-top:10px"><button id="rAdd">Ajouter un risque</button><button id="rFull">Charger le corrigé</button><button id="rEmpty">Registre vide</button><button id="rCopy">Copier le tableau</button></div>
+<p class="small mute" id="rCopyMsg"></p>
+</div>
+</div>
+<div class="rcards" id="rCards"></div>
+</div>
+</div></div>
+</section>
+
+<!-- ============ EXAMEN ============ -->
+<section class="view" id="v-examen">
+<div class="band"><div class="wrap">
+<h1>Sujet blanc : ERP chez Aéromeca</h1>
+<div class="grid2">
+<div>
+<p class="small mute">Sujet inventé pour l'entraînement, construit comme une étude de cas en 2 parties.</p>
+<p><b>Aéromeca</b> (180 salariés, sous-traitant aéronautique, sites de Colomiers et Figeac) remplace son logiciel de gestion de 2009 par un ERP du marché. La directrice générale, Mme Laurent, sponsorise le projet. Le DSI, M. Benali, en est le chef de projet.</p>
+<ul>
+<li>Lancement le lundi 4 janvier 2027. Mise en service exigée au <b>1er septembre 2027</b>, avant le pic de commandes d'octobre.</li>
+<li>Budget <b>420 k€</b>, dont 40 k€ de réserve.</li>
+<li>Périmètre : achats, stocks, production, comptabilité. La paie est exclue, elle reste chez un prestataire.</li>
+<li>6 key users (2 par service) disponibles <b>1 jour par semaine</b>.</li>
+<li>L'intégrateur externe reste à choisir par appel d'offres.</li>
+<li>15 ans de données à reprendre. Un audit de 2025 a relevé 12 % d'articles en doublon.</li>
+<li>Usine fermée du 2 au 22 août.</li>
+<li>L'atelier de Figeac a rejeté un logiciel de suivi de production en 2023.</li>
+</ul>
+<div class="scroll"><table>
+<thead><tr><th>Tâche</th><th></th><th class="n">Durée (sem.)</th><th>Antécédents</th></tr></thead>
+<tbody id="erpT"></tbody></table></div>
+<h3>Travail demandé</h3>
+<ol>
+<li>Rédiger la charte projet.</li>
+<li>Construire le WBS sur 3 niveaux.</li>
+<li>Calculer chemin critique et marges, vérifier l'échéance, tracer le Gantt avec jalons.</li>
+<li>Identifier et coter au moins 6 risques.</li>
+<li>Proposer un plan de traitement et re-coter.</li>
+<li>Présenter les matrices avant et après, et le dispositif de suivi.</li>
+</ol>
+</div>
+<div>
+<div class="panel sticky">
+<div class="timer" id="tm">2:00:00</div>
+<p class="msg" id="tmPhase" style="color:var(--y)">Prêt quand tu l'es</p>
+<div class="meter"><div id="tmBar" style="width:0%"></div></div>
+<div class="row"><button class="pri" id="tmGo">Démarrer</button><button id="tmReset">Remettre à 2 h</button></div>
+<p class="small mute" style="margin-top:10px">Fais-le sur papier, en conditions réelles, puis compare avec le corrigé ci-dessous.</p>
+</div>
+</div>
+</div>
+
+<h2 style="margin-top:30px">Corrigé type</h2>
+<details><summary>1. Charte projet</summary><div class="in"><div class="scroll"><table class="stack"><thead><tr><th>Rubrique</th><th>Contenu</th></tr></thead><tbody id="erpCharter"></tbody></table></div></div></details>
+<details><summary>2. WBS</summary><div class="in"><ul class="tree" id="wbsTree2"></ul><p class="small mute" style="margin-top:10px">La paie n'apparaît pas : règle des 100 %, ce qui est hors périmètre ne figure pas dans le WBS.</p></div></details>
+<details><summary>3. Planning et chemin critique</summary><div class="in">
+<p>Chemin critique <b>A → B → D → F → G → I</b> : 2 + 6 + 8 + 6 + 4 + 1 = <b>27 semaines</b>. Marges : C 1 semaine, E 4 semaines, H 7 semaines.</p>
+<p>Fin au plus tôt le <b>vendredi 9 juillet 2027</b> (semaine 27). Il reste environ 7 semaines jusqu'au 1er septembre, dont 3 de fermeture : environ 4 semaines utiles de tampon. Le dire, et le garder comme marge projet.</p>
+<p>Point d'alerte à écrire : B (besoins) est critique alors que les key users ne sont là qu'un jour par semaine. Une durée de 6 semaines est fragile, c'est le risque R1.</p>
+<p>Jalons : J1 charte validée (15 janvier) · J2 contrat intégrateur signé (19 février) · J3 besoins validés (26 février) · J4 go/no-go après recette (2 juillet) · J5 démarrage (semaine du 5 juillet).</p>
+<button id="goErp">Ouvrir ce réseau dans l'exercice</button>
+</div></details>
+<details><summary>4 à 6. Analyse de risque complète</summary><div class="in">
+<div class="scroll"><table class="stack"><thead><tr><th>Risque</th><th class="n">Avant</th><th>Traitement</th><th class="n">Après</th></tr></thead><tbody id="erpRisk"></tbody></table></div>
+<p style="margin-top:10px">Coût total des actions : <b>36 k€</b> sur 40 k€ de réserve. Il ne reste que 4 k€ pour les aléas : à signaler au sponsor, ou demander que ces actions soient budgétées à part.</p>
+<p>Suivi : registre revu à chaque comité de pilotage mensuel, propriétaire par risque. Déclencheurs : taux d'erreur de la migration à blanc supérieur à 2 % en S14, retard de plus d'une semaine sur les ateliers en S5, moins de 90 % des scénarios de recette passés en S25 (go/no-go).</p>
+<button id="goRisk">Ouvrir ce registre dans l'exercice</button>
+</div></details>
+</div></div>
+</section>
+
+<script>
+{
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let S={};
+try{S=JSON.parse(localStorage.getItem("mpRev1")||"{}")||{}}catch(e){S={}}
+const save=()=>{try{localStorage.setItem("mpRev1",JSON.stringify(S))}catch(e){}};
+S.known=S.known||{};S.chk=S.chk||{};S.cpOk=S.cpOk||0;
+const zoneOf=c=>c>=12?4:c>=8?3:c>=4?2:1;
+const ZN=["","Acceptable","À surveiller","Important","Critique"];
+const ZC=["","#3b4fd8","#4fc1c6","#f7e463","#e8452c"];
+
+/* ---------- PLAN ---------- */
+const SEGS=[[10,"Lecture, surligner dates, budget, acteurs, contraintes","#6b77a8"],[15,"Charte projet","#4fc1c6"],[15,"WBS + RACI si le temps","#4fc1c6"],[25,"Planning : réseau, chemin critique, Gantt","#4fc1c6"],[20,"Risques : identifier, échelles, coter, matrice avant","#f7e463"],[25,"Risques : traiter, re-noter, matrice après, suivi","#e8452c"],[10,"Relecture et cohérence (WBS ↔ planning ↔ risques)","#6b77a8"]];
+{let t=0;$("#bar").innerHTML=SEGS.map(s=>`<div style="width:${s[0]/1.2}%;background:${s[2]}" title="${esc(s[1])}">${s[0]}′</div>`).join("");
+$("#legend").innerHTML=SEGS.map(s=>{const a=t;t+=s[0];return `<li><i style="background:${s[2]}"></i><time>${a}–${t} min</time><span>${esc(s[1])}</span></li>`}).join("");}
+const CHK1=["Charte : contexte, objectifs SMART, périmètre inclus et exclu","Charte : livrables, parties prenantes, sponsor, gouvernance","Charte : jalons, budget, contraintes, hypothèses, top risques, critères de succès","WBS orienté livrables, 3 niveaux, codifié 1.1.1","Branche « Management de projet », règle des 100 % respectée","Liste des tâches avec durées et antécédents","Réseau avec dates au plus tôt, au plus tard et marges","Chemin critique identifié, durée comparée à l'échéance","Gantt avec jalons et dates réelles (congés, fermetures)"];
+const CHK2=["Échelles de probabilité et de gravité avec seuils chiffrés","6 à 10 risques formulés cause → événement → conséquence","Risques reliés aux lots du WBS et aux tâches critiques","Criticité P × G et matrice avant traitement","Pour chaque risque important : stratégie et action concrète","Responsable, échéance et coût de chaque action","Re-cotation P' × G' et matrice après traitement","Contingence et déclencheur pour les risques qui restent","Suivi : revue en comité, indicateurs, coût total vs réserve"];
+const renderChk=(id,arr,p)=>{$(id).innerHTML=arr.map((t,i)=>`<li><input type="checkbox" id="${p}${i}" ${S.chk[p+i]?"checked":""}><label for="${p}${i}">${esc(t)}</label></li>`).join("")};
+renderChk("#chk1",CHK1,"a");renderChk("#chk2",CHK2,"b");
+document.addEventListener("change",e=>{if(e.target.matches("ul.chk input")){S.chk[e.target.id]=e.target.checked;save();renderProg()}});
+
+/* ---------- DATA ---------- */
+const FC=[
+["c","Project charter : à quoi sert-il ?","Il autorise officiellement le projet et donne son autorité au chef de projet. Il dit pourquoi (contexte, objectifs), quoi (périmètre, livrables), qui (sponsor, chef de projet, parties prenantes), quand (jalons), combien (budget) et avec quelles limites (contraintes, hypothèses, risques majeurs). Validé par le sponsor."],
+["c","Objectif SMART ?","Spécifique, Mesurable, Atteignable, Réaliste, Temporellement défini. Ex : « ERP en service sur les 2 sites le 1er septembre 2027, sans interruption de facturation de plus d'un jour »."],
+["c","Pourquoi écrire ce qui est hors périmètre ?","Lister explicitement les exclusions évite la dérive du périmètre (scope creep) et les malentendus avec le client."],
+["c","Contrainte ou hypothèse ?","Contrainte : limite imposée (budget, date, norme). Hypothèse : ce qu'on suppose vrai sans preuve (« les key users seront disponibles »). Chaque hypothèse est un risque potentiel."],
+["c","Critères de succès ?","Comment on saura que le projet a réussi : délai tenu, budget tenu, indicateurs métier (taux d'adoption, erreurs, satisfaction)."],
+["c","WBS ?","Work Breakdown Structure : décomposition hiérarchique, orientée livrables, de tout le travail du projet. Il dit quoi, pas quand."],
+["c","Règle des 100 % ?","Les éléments enfants couvrent 100 % du travail du parent : rien de plus (pas de hors périmètre), rien de moins."],
+["c","Lot de travail (work package) ?","Dernier niveau du WBS : estimable en durée et coût, confié à un seul responsable. Repère : 8 à 80 heures de travail."],
+["c","Dictionnaire du WBS ?","Une fiche par lot : description, livrable, responsable, durée, coût, critères d'acceptation."],
+["c","Erreurs classiques dans un WBS ?","Mettre des dépendances ou un ordre temporel, oublier la branche Management de projet, mélanger livrables et acteurs, chevauchements, inclure le hors périmètre, aller trop ou pas assez loin."],
+["c","RACI ?","Matrice lots × acteurs. Responsible réalise, Accountable valide et rend des comptes (un seul par ligne), Consulted avant, Informed après."],
+["p","Les 4 types de dépendances ?","FS fin → début (le plus courant), SS début → début, FF fin → fin, SF début → fin (rare). Plus avance et retard (lead / lag)."],
+["p","Estimation à 3 points (PERT) ?","Durée = (O + 4M + P) / 6, écart-type = (P − O) / 6. O optimiste, M plus probable, P pessimiste."],
+["p","Date de début au plus tôt ?","Passe avant : max des fins au plus tôt des antécédents (0 si aucun antécédent)."],
+["p","Date de fin au plus tard ?","Passe arrière : min des débuts au plus tard des successeurs (durée du projet si aucun successeur)."],
+["p","Marge totale ?","Retard possible sans décaler la fin du projet = début au plus tard − début au plus tôt."],
+["p","Marge libre ?","Retard possible sans décaler aucun successeur = min(débuts au plus tôt des successeurs) − fin au plus tôt. Toujours ≤ marge totale."],
+["p","Chemin critique ?","Le plus long chemin du réseau, formé des tâches à marge totale nulle. Sa durée est la durée du projet : tout retard dessus retarde le projet."],
+["p","Jalon ?","Événement de durée 0 (losange sur le Gantt) : décision, validation, livraison. Ex : go/no-go après recette."],
+["p","Crashing ou fast-tracking ?","Crashing : ajouter des ressources sur les tâches critiques, ça coûte. Fast-tracking : paralléliser des tâches prévues en séquence, ça augmente le risque."],
+["p","Baseline ?","Planning de référence validé. On mesure les écarts par rapport à lui pendant le projet."],
+["r","Risque ou problème ?","Risque : incertain et futur. Problème : déjà survenu, il se traite maintenant (plan d'action, pas cotation)."],
+["r","Formuler un risque ?","« À cause de [cause], [événement] peut survenir, ce qui entraînerait [conséquence sur coût, délai ou qualité]. »"],
+["r","Les étapes de la gestion des risques ?","Identifier → Évaluer → Traiter → Suivre et contrôler, en boucle. Avec re-cotation après traitement."],
+["r","Ishikawa 5M / 6M ?","Main d'œuvre, Matériel, Méthodes, Matière, Milieu, + Mesure. Variantes : Management, Moyens financiers."],
+["r","TOHE ?","Grille d'identification : Technique, Organisationnel, Humain, Environnement."],
+["r","Criticité ?","Probabilité × Gravité. Sur des échelles 1-4 : de 1 à 16. Gravité notée sur coût, délai et qualité, on garde la plus haute."],
+["r","Zones de la matrice (1-16) ?","1-3 acceptable, 4-6 à surveiller, 8-9 important, 12-16 critique. Les seuils sont des conventions à fixer pour le projet."],
+["r","4 stratégies face à une menace ?","Éviter (supprimer la cause), Réduire (prévention ↓P, protection ↓G), Transférer (assurance, contrat, sous-traitance), Accepter (surveiller, réserve, contingence)."],
+["r","Prévention ou protection ?","Prévention agit sur la cause et baisse la probabilité. Protection agit sur les effets et baisse la gravité."],
+["r","Re-quantifier, pourquoi ?","Pour prouver que l'action sert : nouvelle note P' × G' = criticité résiduelle. Si le risque reste critique, nouvelle action ou escalade. C'est l'erreur n°1 signalée par le prof."],
+["r","Une bonne action contient ?","Une action concrète, un responsable, une échéance, un coût, un indicateur. Et son coût reste inférieur à l'exposition évitée."],
+["r","Exposition (valeur attendue) ?","Probabilité en % × impact (€ ou jours). La somme des expositions résiduelles aide à dimensionner la réserve pour aléas."],
+["r","Risque résiduel ou secondaire ?","Résiduel : ce qui reste après l'action. Secondaire : nouveau risque créé par l'action (sous-traiter crée une dépendance fournisseur)."],
+["r","Plan de contingence ?","Plan B préparé à l'avance, déclenché par un seuil défini (trigger). Ex : « si la livraison n'est pas confirmée à J-15, on loue un équipement »."],
+["r","Suivi des risques ?","Registre mis à jour à chaque comité, propriétaire par risque, indicateurs d'alerte, nouveaux risques ajoutés, risques passés clôturés."],
+["r","Et les opportunités ?","Risques positifs : exploiter, améliorer, partager, accepter."]
+];
+const QZ=[
+["Quel document autorise officiellement le projet et donne son autorité au chef de projet ?",["La charte projet","Le WBS","Le Gantt","Le registre des risques"],"La charte (project charter), validée par le sponsor, lance officiellement le projet."],
+["Un WBS est organisé autour…",["des livrables","de la chronologie","des acteurs","des coûts"],"Le WBS décompose le travail en livrables. L'ordre vient du planning, les acteurs de l'OBS."],
+["La règle des 100 % signifie que…",["les enfants couvrent tout le travail du parent, rien de plus, rien de moins","100 % du budget doit être dépensé","un lot doit être fini à 100 % avant le suivant","toutes les parties prenantes valident le WBS"],"C'est une règle de complétude du découpage, sans lien avec le budget ou le temps."],
+["Qu'est-ce qui n'a pas sa place dans un WBS ?",["Les dépendances entre tâches","La branche Management de projet","Des livrables intermédiaires","Une codification 1.2.3"],"Le WBS n'a pas d'ordre temporel. Les dépendances vont dans le réseau PERT."],
+["Le dernier niveau du WBS s'appelle…",["le lot de travail","le jalon","l'activité critique","le livrable final"],"Le lot de travail (work package) est estimable et confié à un seul responsable."],
+["Lequel est un objectif SMART ?",["ERP en service sur les 2 sites le 1er septembre 2027, sans arrêt de facturation de plus d'un jour","Améliorer la gestion de l'entreprise","Avoir un ERP moderne","Livrer le plus vite possible"],"Il est spécifique, mesurable et daté. Les autres ne se mesurent pas."],
+["Dans un RACI, combien de « A » par lot ?",["Exactement un","Au moins deux","Autant que de R","Aucun, c'est facultatif"],"Un seul Accountable par ligne : une seule personne rend des comptes."],
+["A (3 j). B (5 j) et C (2 j) après A. D (4 j) après B et C. Durée du projet ?",["12 jours","9 jours","14 jours","10 jours"],"Chemin A → B → D : 3 + 5 + 4 = 12."],
+["Même réseau : quelle est la marge totale de C ?",["3 jours","0 jour","2 jours","5 jours"],"C fait 3 → 5, D démarre au plus tard à 8, donc C peut finir à 8 et démarrer à 6. Marge 6 − 3 = 3."],
+["Une tâche à marge totale nulle…",["est sur le chemin critique","peut glisser sans conséquence","est un jalon","n'a pas d'antécédent"],"Marge totale nulle = critique : tout retard décale la fin du projet."],
+["« Le manuel doit être terminé quand les tests se terminent. » Quel lien ?",["Fin → fin (FF)","Fin → début (FS)","Début → début (SS)","Début → fin (SF)"],"Les deux fins sont liées : FF."],
+["Estimation 3 points : O = 4, M = 6, P = 14. Durée PERT ?",["7","8","6","24"],"(4 + 4 × 6 + 14) / 6 = 42 / 6 = 7."],
+["Ajouter des ressources sur des tâches critiques pour raccourcir le projet, c'est…",["du crashing","du fast-tracking","du nivellement","du lissage"],"Le crashing achète du temps avec des ressources. Sur une tâche non critique, ça ne sert à rien."],
+["Faire en parallèle deux tâches prévues en séquence, c'est…",["du fast-tracking","du crashing","une baseline","un jalon"],"Le fast-tracking est gratuit mais augmente le risque de reprise."],
+["« Le fournisseur a annoncé hier 3 semaines de retard. » C'est…",["un problème","un risque","une hypothèse","une opportunité"],"C'est déjà arrivé : on le traite comme un problème, pas comme un risque à coter."],
+["P = 3 et G = 4 sur des échelles 1-4. Criticité et zone ?",["12, critique","7, important","12, à surveiller","16, critique"],"3 × 4 = 12, zone 12-16 critique."],
+["Deux risques à 4 : P4 × G1 et P1 × G4. Le bon réflexe ?",["Les traiter différemment : corriger le processus pour le premier, plan de secours pour le second","Les traiter pareil, même score","Ignorer les deux, ils sont à 4","Supprimer le second, il est rare"],"Même score ne veut pas dire même risque : regarde la position dans la matrice."],
+["Souscrire une assurance, c'est…",["transférer","éviter","accepter","réduire la probabilité"],"Le risque financier passe à l'assureur : transfert."],
+["Former un binôme pour l'unique expert du projet, c'est surtout…",["de la protection : la gravité baisse si l'expert part","de la prévention : l'expert partira moins","un transfert","une acceptation"],"Le départ reste possible, mais ses effets sont limités : la gravité baisse."],
+["Écrire des scénarios de recette avec les utilisateurs pour éviter les bugs au démarrage, c'est…",["de la prévention : la probabilité baisse","de la protection : la gravité baisse","un transfert","une acceptation"],"On agit sur la cause (bugs non détectés) : la probabilité baisse."],
+["L'erreur la plus fréquente selon ton prof sur l'analyse de risque ?",["Lister et noter les risques sans proposer de solution ni re-noter","Utiliser une matrice 4 × 4","Faire trop de risques","Mettre des coûts"],"Sans traitement et re-cotation, l'analyse n'apporte rien au projet."],
+["Après action, un risque passe de 12 à 9. Que faire ?",["Il reste important : ajouter une action, ou justifier l'acceptation avec contingence","Rien, il a baissé","Le supprimer du registre","Le recoter à 4 pour finir"],"9 est encore en zone importante. On ne truque pas la note : on agit ou on justifie."],
+["Action à 30 k€ contre un risque de 20 % × 50 k€. Qu'en dire ?",["Exposition 10 k€ : l'action coûte plus que le risque, sauf enjeu non financier (délai, image)","C'est rentable","Exposition 50 k€, c'est rentable","On ne compare jamais coût et risque"],"0,2 × 50 = 10 k€ d'exposition, à comparer aux 30 k€ de l'action."],
+["Un risque secondaire est…",["un nouveau risque créé par la réponse à un risque","le risque qui reste après action","un risque de faible criticité","un risque déjà survenu"],"Ex : sous-traiter crée une dépendance fournisseur. Ce qui reste après action est le résiduel."],
+["Un plan de contingence se déclenche…",["quand un seuil défini à l'avance est atteint","dès le début du projet","quand le sponsor le demande","jamais, c'est théorique"],"On fixe un déclencheur (trigger) mesurable, par exemple un taux d'erreur ou une date."],
+["« Les key users seront disponibles 2 jours par semaine » dans la charte, c'est…",["une hypothèse, à suivre comme risque","une contrainte","un livrable","un critère de succès"],"On le suppose sans preuve : c'est une hypothèse, donc un risque potentiel."]
+];
+const ERP=[["A","Cadrage et charte",2,[]],["B","Analyse des besoins (ateliers)",6,[0]],["C","Choix de l'intégrateur",5,[0]],["D","Paramétrage de l'ERP",8,[1,2]],["E","Reprise des données",10,[1]],["F","Interfaces et spécifiques",6,[3]],["G","Recette",4,[4,5]],["H","Formation des utilisateurs",3,[3]],["I","Bascule et démarrage",1,[6,7]]];
+const CHARTER=[["Contexte et enjeux","Pourquoi le projet existe, le problème à résoudre","Recopier le sujet sans en tirer l'enjeu"],["Objectifs SMART","2 ou 3 objectifs mesurables et datés","Objectifs vagues (« améliorer »)"],["Périmètre","Ce qui est inclus et ce qui est exclu","Oublier les exclusions"],["Livrables","Ce qui sera remis à la fin (et les livrables intermédiaires)","Confondre livrable et tâche"],["Parties prenantes et gouvernance","Sponsor, chef de projet, équipe, comité de pilotage, fréquence","Pas de sponsor identifié"],["Jalons clés","4 à 6 dates de décision ou de livraison","Mettre tout le planning"],["Budget","Montant, réserve pour aléas","Oublier la réserve"],["Contraintes","Limites imposées : dates, budget, normes, fermetures","Les mélanger avec les hypothèses"],["Hypothèses","Ce qu'on suppose vrai sans preuve","Ne pas les relier aux risques"],["Risques majeurs","Les 3 principaux, détaillés en partie 2","Faire déjà toute l'analyse ici"],["Critères de succès","Comment on mesure la réussite","Les oublier"],["Validation","Signature du sponsor, date","Charte non validée"]];
+const ERPCH=[["Contexte","Logiciel de 2009 en fin de vie, pic de commandes en octobre : l'ERP doit être stable avant"],["Objectifs","ERP en service sur Colomiers et Figeac le 1er septembre 2027 · budget de 420 k€ tenu · moins de 1 % d'erreurs sur les stocks repris · 100 % des utilisateurs formés avant le démarrage"],["Périmètre","Inclus : achats, stocks, production, comptabilité, reprise de données, formation. Exclu : paie (reste chez le prestataire), évolutions après démarrage"],["Livrables","Cahier des charges, contrat intégrateur, ERP paramétré, données migrées, PV de recette, supports de formation, bilan"],["Gouvernance","Sponsor : Mme Laurent (DG). Chef de projet : M. Benali (DSI). Équipe : 6 key users, intégrateur. Comité de pilotage mensuel, point projet hebdomadaire"],["Jalons","Charte validée 15/01 · contrat signé 19/02 · besoins validés 26/02 · go/no-go 02/07 · démarrage semaine du 05/07/2027"],["Budget","420 k€ dont 40 k€ de réserve"],["Contraintes","Échéance 1er septembre, fermeture du 2 au 22 août, budget fixe"],["Hypothèses","Key users disponibles 1 jour par semaine, intégrateur choisi en 5 semaines, données exploitables après nettoyage"],["Risques majeurs","Disponibilité des key users, qualité des données, adhésion de l'atelier de Figeac"],["Critères de succès","Démarrage à la date, aucune interruption de facturation de plus d'un jour, taux d'utilisation de 90 % à 1 mois"],["Validation","Signée par Mme Laurent le 15 janvier 2027"]];
+const WBS=[["1.1","Management de projet",["Charte","Planning et budget","Comités et reporting","Registre des risques"]],["1.2","Besoins exprimés",["Ateliers par processus","Cahier des charges","Validation des besoins"]],["1.3","Intégrateur sélectionné",["Dossier d'appel d'offres","Analyse des offres","Contrat signé"]],["1.4","Solution paramétrée",["Achats et stocks","Production","Comptabilité","Interfaces et spécifiques"]],["1.5","Données reprises",["Audit et nettoyage","Migrations à blanc","Migration finale"]],["1.6","Solution recettée",["Scénarios de recette","Campagne de tests","PV de recette"]],["1.7","Utilisateurs formés",["Plan de conduite du changement","Supports","Sessions de formation"]],["1.8","Démarrage",["Bascule","Support après démarrage","Bilan de projet"]]];
+const RFULL=[
+{t:"Key users dispo 1 j/sem → ateliers besoins (B, critique) en retard",p:3,g:3,s:"Réduire (prévention)",a:"Faire acter 2 j/sem en charte par la DG, intérim pour soulager les services",o:"Mme Laurent",c:12,p2:2,g2:2},
+{t:"Données de 15 ans, 12 % de doublons → migration en retard ou erronée",p:4,g:3,s:"Réduire (prévention)",a:"Audit dès S3, nettoyage en parallèle de B, outil de dédoublonnage, 2 migrations à blanc",o:"M. Benali",c:8,p2:2,g2:3},
+{t:"Intégrateur surchargé → paramétrage (D, critique) en retard",p:2,g:4,s:"Réduire (prévention)",a:"Équipe nommée au contrat, planning intégrateur validé avant signature, pénalités de retard",o:"M. Benali",c:0,p2:1,g2:4},
+{t:"Atelier de Figeac a déjà rejeté un logiciel → faible adoption",p:3,g:3,s:"Réduire (les deux)",a:"Ambassadeurs à Figeac, formation sur leurs vraies données, support sur place 2 semaines",o:"Key users production",c:10,p2:2,g2:2},
+{t:"Demandes de spécifiques → dépassement du budget",p:3,g:3,s:"Réduire (prévention)",a:"Principe « standard d'abord », tout spécifique validé en comité avec son coût",o:"M. Benali",c:0,p2:2,g2:2},
+{t:"Recette incomplète → bugs bloquants au démarrage",p:2,g:4,s:"Réduire (les deux)",a:"Scénarios écrits par les key users, go/no-go à 90 % de tests passés, plan de retour arrière",o:"Key users",c:6,p2:1,g2:3},
+{t:"Fermeture d'août → support réduit juste après le démarrage",p:1,g:3,s:"Accepter",a:"Astreinte intégrateur prévue au contrat, surveillance au comité de juillet",o:"M. Benali",c:0,p2:1,g2:3}
+];
+const RDEF=()=>{const r=JSON.parse(JSON.stringify(RFULL));r[1].a="";r[1].s="";r[1].p2=0;r[1].g2=0;r[1].c=0;r[1].o="";r[3].p2=0;r[3].g2=0;r[3].a="Faire une démo";r[3].s="Accepter";r[3].c=0;return r};
+const STRATS=["Éviter","Réduire (prévention)","Réduire (protection)","Réduire (les deux)","Transférer","Accepter"];
+
+/* ---------- COURS render ---------- */
+$("#charterT").innerHTML=CHARTER.map(r=>`<tr><td data-l="Rubrique"><b>${esc(r[0])}</b></td><td data-l="Contenu">${esc(r[1])}</td><td data-l="Piège" class="mute">${esc(r[2])}</td></tr>`).join("");
+const tree=`<li><code>1</code><b>ERP Aéromeca</b><ul>${WBS.map(w=>`<li><code>${w[0]}</code>${esc(w[1])}<ul>${w[2].map((x,i)=>`<li><code>${w[0]}.${i+1}</code>${esc(x)}</li>`).join("")}</ul></li>`).join("")}</ul></li>`;
+$("#wbsTree").innerHTML=tree;$("#wbsTree2").innerHTML=tree;
+document.querySelectorAll("[data-go]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();document.getElementById(a.dataset.go).scrollIntoView({behavior:"smooth"})}));
+$("#erpT").innerHTML=ERP.map(r=>`<tr><td><b>${r[0]}</b></td><td>${esc(r[1])}</td><td class="n">${r[2]}</td><td>${r[3].map(j=>ERP[j][0]).join(", ")||"—"}</td></tr>`).join("");
+$("#erpCharter").innerHTML=ERPCH.map(r=>`<tr><td data-l="Rubrique"><b>${esc(r[0])}</b></td><td data-l="Contenu">${esc(r[1])}</td></tr>`).join("");
+$("#erpRisk").innerHTML=RFULL.map((r,i)=>{const c1=r.p*r.g,c2=r.p2*r.g2;return `<tr><td data-l="Risque"><b>R${i+1}</b> ${esc(r.t)}</td><td data-l="Avant" class="n"><span class="zone z${zoneOf(c1)}">${r.p}×${r.g} = ${c1}</span></td><td data-l="Traitement"><b>${esc(r.s)}</b> : ${esc(r.a)} · ${esc(r.o)} · ${r.c} k€</td><td data-l="Après" class="n"><span class="zone z${zoneOf(c2)}">${r.p2}×${r.g2} = ${c2}</span></td></tr>`}).join("");
+
+/* ---------- FLASHCARDS ---------- */
+const DECKS=[["all","Toutes"],["c","Charte et WBS"],["p","Planning"],["r","Risques"],["todo","À revoir"]];
+const FS={deck:"all",i:0,back:false};
+const fcList=()=>FC.map((c,i)=>i).filter(i=>FS.deck==="all"?true:FS.deck==="todo"?S.known[i]!==1:FC[i][0]===FS.deck);
+const TAGN={c:"Charte et WBS",p:"Planning",r:"Analyse de risque"};
+function renderFC(){
+$("#deck").innerHTML=DECKS.map(d=>`<button data-d="${d[0]}" class="${FS.deck===d[0]?"on":""}">${d[1]}</button>`).join("");
+const L=fcList(),known=FC.filter((c,i)=>S.known[i]===1).length;
+$("#fcMeter").style.width=(known/FC.length*100)+"%";
+$("#fcInfo").textContent=`${known} / ${FC.length} cartes sues au total${L.length?` · carte ${Math.min(FS.i+1,L.length)} sur ${L.length} dans ce paquet`:""}`;
+const card=$("#card");
+if(!L.length){card.className="card";card.innerHTML=`<div class="q">Paquet vide</div><p class="mute" style="margin-top:10px">Tout est su ici. Choisis un autre paquet.</p>`;return}
+if(FS.i>=L.length)FS.i=0;
+const c=FC[L[FS.i]];
+card.className="card"+(FS.back?" back":"");
+card.innerHTML=`<div class="tag">${TAGN[c[0]]}${S.known[L[FS.i]]===1?" · sue":S.known[L[FS.i]]===0?" · à revoir":""}</div>`+(FS.back?`<div class="a">${esc(c[2])}</div>`:`<div class="q">${esc(c[1])}</div><p class="mute small" style="margin-top:14px">Touche pour voir la réponse</p>`);
+}
+const fcMove=d=>{const L=fcList();if(!L.length)return;FS.i=(FS.i+d+L.length)%L.length;FS.back=false;renderFC()};
+const fcMark=v=>{const L=fcList();if(!L.length)return;S.known[L[FS.i]]=v;save();FS.back=false;if(FS.deck==="todo"&&v===1){renderFC()}else fcMove(1);renderProg()};
+$("#deck").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;FS.deck=b.dataset.d;FS.i=0;FS.back=false;renderFC()});
+$("#card").addEventListener("click",()=>{FS.back=!FS.back;renderFC()});
+$("#fcPrev").onclick=()=>fcMove(-1);$("#fcNext").onclick=()=>fcMove(1);
+$("#fcGood").onclick=()=>fcMark(1);$("#fcBad").onclick=()=>fcMark(0);
+document.addEventListener("keydown",e=>{if(location.hash!=="#cartes"||e.target.matches("input,textarea,select"))return;if(e.key===" "){e.preventDefault();FS.back=!FS.back;renderFC()}else if(e.key==="ArrowRight")fcMove(1);else if(e.key==="ArrowLeft")fcMove(-1)});
+
+/* ---------- QUIZ ---------- */
+const shuf=a=>{const b=a.slice();for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
+const QS={order:[],k:0,score:0,done:false,wrong:[],opts:[],ans:null};
+function qStart(list){QS.order=shuf(list);QS.k=0;QS.score=0;QS.wrong=[];QS.ans=null;qPrep();renderQ()}
+function qPrep(){QS.opts=shuf([0,1,2,3]);QS.ans=null}
+function renderQ(){
+const box=$("#quizBox");
+if(QS.k>=QS.order.length){
+const n=QS.order.length,pct=Math.round(QS.score/n*100);
+if(n===QZ.length&&(S.best==null||pct>S.best)){S.best=pct;save();renderProg()}
+box.innerHTML=`<div class="panel"><div class="timer" style="font-size:64px">${QS.score} / ${n}</div><p class="lead">${pct>=85?"Solide. Passe au sujet blanc.":pct>=60?"Bien, revois les explications ci-dessous.":"Repasse par le cours et les flashcards, puis refais tes erreurs."}</p>
+${QS.wrong.length?`<h3>Tes erreurs</h3>${QS.wrong.map(i=>`<div class="expl"><b>${esc(QZ[i][0])}</b><br>Réponse : ${esc(QZ[i][1][0])}<br><span class="mute">${esc(QZ[i][2])}</span></div>`).join("")}`:""}
+<div class="row" style="margin-top:14px"><button class="pri" id="qAll">Recommencer tout</button>${QS.wrong.length?`<button id="qWrong">Refaire mes ${QS.wrong.length} erreurs</button>`:""}</div></div>`;
+$("#qAll").onclick=()=>qStart(QZ.map((q,i)=>i));
+const w=$("#qWrong");if(w){const list=QS.wrong.slice();w.onclick=()=>qStart(list)}
+return}
+const qi=QS.order[QS.k],q=QZ[qi];
+box.innerHTML=`<div class="meter"><div style="width:${QS.k/QS.order.length*100}%"></div></div><p class="small mute">Question ${QS.k+1} sur ${QS.order.length} · score ${QS.score}${S.best!=null?` · meilleur score ${S.best} %`:""}</p>
+<div class="panel"><h2 style="font-size:22px">${esc(q[0])}</h2><div class="opts">${QS.opts.map(o=>{let cl="";if(QS.ans!==null){if(o===0)cl="good";else if(o===QS.ans)cl="bad"}return `<button data-o="${o}" class="${cl}" ${QS.ans!==null?"disabled":""}>${esc(q[1][o])}</button>`}).join("")}</div>
+${QS.ans!==null?`<div class="expl"><b>${QS.ans===0?"Exact.":"Pas tout à fait."}</b> ${esc(q[2])}</div><button class="pri" id="qNext">${QS.k+1<QS.order.length?"Question suivante":"Voir le résultat"}</button>`:""}</div>`;
+box.querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>{QS.ans=+b.dataset.o;if(QS.ans===0)QS.score++;else QS.wrong.push(qi);renderQ()});
+const nx=$("#qNext");if(nx){nx.onclick=()=>{QS.k++;qPrep();renderQ()};nx.focus()}
+}
+qStart(QZ.map((q,i)=>i));
+
+/* ---------- CRITICAL PATH ---------- */
+const CP={t:[],u:"j",show:false,checked:false,erp:false};
+function solve(t){
+const n=t.length,ES=[],EF=[],LS=[],LF=[],succ=t.map(()=>[]);
+t.forEach((x,i)=>x.p.forEach(j=>succ[j].push(i)));
+t.forEach((x,i)=>{ES[i]=x.p.length?Math.max(...x.p.map(j=>EF[j])):0;EF[i]=ES[i]+x.d});
+const D=Math.max(...EF);
+for(let i=n-1;i>=0;i--){LF[i]=succ[i].length?Math.min(...succ[i].map(k=>LS[k])):D;LS[i]=LF[i]-t[i].d}
+const TF=t.map((x,i)=>LS[i]-ES[i]),FF=t.map((x,i)=>(succ[i].length?Math.min(...succ[i].map(k=>ES[k])):D)-EF[i]);
+return{ES,EF,LS,LF,TF,FF,D,succ}}
+function gen(){
+const n=7+Math.floor(Math.random()*3),t=[];
+for(let i=0;i<n;i++){const d=1+Math.floor(Math.random()*8);let p=[];
+if(i>0&&!(i===1&&Math.random()<.4)){const k=(i>1&&Math.random()<.45)?2:1;const cand=[];for(let j=Math.max(0,i-3);j<i;j++)cand.push(j);p=shuf(cand).slice(0,Math.min(k,cand.length)).sort((a,b)=>a-b)}
+t.push({n:"ABCDEFGHIJ"[i],l:"",d,p})}
+return t}
+function loadCP(t,u,erp){CP.t=t;CP.u=u;CP.show=false;CP.checked=false;CP.erp=erp;renderCP()}
+function renderCP(){
+const t=CP.t,sol=solve(t),U=CP.u==="j"?"jours":"semaines";
+$("#cpU").textContent=U;
+$("#cpT").innerHTML=`<thead><tr><th>Tâche</th><th class="n">Durée</th><th>Antécédents</th><th class="n">Début au plus tôt</th><th class="n">Marge totale</th></tr></thead><tbody>${t.map((x,i)=>`<tr class="${CP.show&&sol.TF[i]===0?"crit":""}"><td><b>${x.n}</b>${x.l?`<br><span class="small mute">${esc(x.l)}</span>`:""}</td><td class="n">${x.d}</td><td>${x.p.map(j=>t[j].n).join(", ")||"—"}</td><td class="n"><input inputmode="numeric" data-es="${i}" aria-label="Début au plus tôt de ${x.n}"></td><td class="n"><input inputmode="numeric" data-tf="${i}" aria-label="Marge totale de ${x.n}"></td></tr>`).join("")}</tbody>`;
+$("#cpD").value="";$("#cpD").className="";$("#cpMsg").textContent="";$("#cpMsg").className="msg";
+renderSol();sizeNet();drawNet()}
+function renderSol(){
+const box=$("#cpSolBox");if(!CP.show)return;
+const t=CP.t,s=solve(t),U=CP.u==="j"?"jours":"semaines";
+const crit=t.filter((x,i)=>s.TF[i]===0).map(x=>x.n).join(" → ");
+const step=s.D>24?5:s.D>12?2:1,tk=[];for(let v=0;v<=s.D;v+=step)tk.push(v);
+box.innerHTML=`<h3 style="margin-top:0">Solution</h3><p>Durée du projet : <b>${s.D} ${U}</b>. Chemin critique : <b>${crit}</b>.</p>
+<div class="scroll"><table><thead><tr><th>Tâche</th><th class="n">Tôt</th><th class="n">Tard</th><th class="n">Marge totale</th><th class="n">Marge libre</th></tr></thead><tbody>${t.map((x,i)=>`<tr class="${s.TF[i]===0?"crit":""}"><td>${x.n}</td><td class="n">${s.ES[i]} → ${s.EF[i]}</td><td class="n">${s.LS[i]} → ${s.LF[i]}</td><td class="n">${s.TF[i]}</td><td class="n">${s.FF[i]}</td></tr>`).join("")}</tbody></table></div>
+<h3>Gantt au plus tôt</h3><div class="gantt">${t.map((x,i)=>`<div class="grow"><b>${x.n}</b><div class="gtrack"><i class="${s.TF[i]===0?"c":""}" style="left:${s.ES[i]/s.D*100}%;width:${x.d/s.D*100}%"></i>${s.TF[i]>0?`<i class="f" style="left:${s.EF[i]/s.D*100}%;width:${s.TF[i]/s.D*100}%"></i>`:""}</div></div>`).join("")}
+<div class="grow"><span></span><div style="position:relative;height:18px;font-size:13px" class="mute">${tk.map(v=>`<span style="position:absolute;left:${v/s.D*100}%;transform:translateX(${v===s.D?"-100%":v===0?"0":"-50%"})">${v}</span>`).join("")}</div></div></div>
+<p class="small mute" style="margin-top:8px">Rouge : tâche critique. Hachuré : marge totale disponible.</p>`}
+function sizeNet(){
+const t=CP.t,lv=[];t.forEach((x,i)=>{lv[i]=x.p.length?1+Math.max(...x.p.map(j=>lv[j])):0});
+const cnt={};lv.forEach(l=>cnt[l]=(cnt[l]||0)+1);const maxR=Math.max(...Object.values(cnt));
+$("#netFig").style.height=Math.max(220,maxR*78+30)+"px"}
+function drawNet(){
+const s=$("#net");if(!s||!CP.t.length)return;const W=s.clientWidth,H=s.clientHeight;if(!W||!H)return;
+const t=CP.t,sol=solve(t),show=CP.show,lv=[];t.forEach((x,i)=>{lv[i]=x.p.length?1+Math.max(...x.p.map(j=>lv[j])):0});
+const nL=Math.max(...lv)+1,cols=[...Array(nL)].map(()=>[]);t.forEach((x,i)=>cols[lv[i]].push(i));
+const nw=Math.max(50,Math.min(96,(W-16)/nL*.62)),nh=show?54:40,gapX=nL>1?(W-16-nw)/(nL-1):0;
+const maxR=Math.max(...cols.map(c=>c.length)),rowG=maxR>1?Math.min(nh+30,(H-20-nh)/(maxR-1)):0;
+const pos=[];cols.forEach((c,l)=>c.forEach((i,k)=>{pos[i]={x:8+(nL>1?l*gapX:(W-nw)/2),y:H/2+(k-(c.length-1)/2)*rowG-nh/2}}));
+let e="",nd="";
+t.forEach((x,i)=>x.p.forEach(j=>{const a=pos[j],b=pos[i],x1=a.x+nw,y1=a.y+nh/2,x2=b.x,y2=b.y+nh/2,mx=(x1+x2)/2;
+const c=show&&sol.TF[i]===0&&sol.TF[j]===0&&sol.EF[j]===sol.ES[i];
+e+=`<path d="M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2-6},${y2}" fill="none" stroke="${c?"#e8452c":"rgba(200,210,255,.45)"}" stroke-width="${c?3:1.6}" marker-end="url(#ah${c?"c":""})"/>`}));
+t.forEach((x,i)=>{const p=pos[i],c=show&&sol.TF[i]===0;
+nd+=`<rect x="${p.x}" y="${p.y}" width="${nw}" height="${nh}" rx="9" fill="${c?"#3a1a2c":"#18265a"}" stroke="${c?"#e8452c":"#4fc1c6"}" stroke-width="${c?2.5:1.4}"/>
+<text x="${p.x+nw/2}" y="${p.y+(show?22:26)}" text-anchor="middle" fill="#eef1ff" font-size="15" font-weight="700" style="stroke:none">${x.n} · ${x.d}</text>
+${show?`<text x="${p.x+nw/2}" y="${p.y+42}" text-anchor="middle" fill="${c?"#ff9b85":"#aab4dc"}" font-size="13" style="stroke:none">${sol.ES[i]}→${sol.EF[i]} · m${sol.TF[i]}</text>`:""}`});
+s.innerHTML=`<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="rgba(200,210,255,.6)"/></marker><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#e8452c"/></marker></defs>${e}${nd}`}
+const netRO=new ResizeObserver(()=>drawNet());netRO.observe($("#net"));
+$("#cpCheck").onclick=()=>{
+const s=solve(CP.t);let ok=0,tot=0;
+document.querySelectorAll("[data-es]").forEach(inp=>{const i=+inp.dataset.es;tot++;const v=inp.value.trim();const g=v!==""&&+v===s.ES[i];inp.className=v===""?"":g?"ok":"ko";if(g)ok++});
+document.querySelectorAll("[data-tf]").forEach(inp=>{const i=+inp.dataset.tf;tot++;const v=inp.value.trim();const g=v!==""&&+v===s.TF[i];inp.className=v===""?"":g?"ok":"ko";if(g)ok++});
+const d=$("#cpD"),dv=d.value.trim();tot++;const dg=dv!==""&&+dv===s.D;d.className=dv===""?"":dg?"ok":"ko";if(dg)ok++;
+const m=$("#cpMsg");
+if(ok===tot){m.textContent=`Tout est juste. Chemin critique : ${CP.t.filter((x,i)=>s.TF[i]===0).map(x=>x.n).join(" → ")}.`;m.className="msg ok";if(!CP.checked){S.cpOk++;save();renderProg()}CP.checked=true;CP.show=true;renderSol();sizeNet();drawNet()}
+else{m.textContent=`${ok} / ${tot} justes. Corrige les cases en rouge.`;m.className="msg ko"}};
+$("#cpSol").onclick=()=>{CP.show=true;renderSol();sizeNet();drawNet();$("#cpSolBox").scrollIntoView({behavior:"smooth",block:"nearest"})};
+$("#cpNew").onclick=()=>loadCP(gen(),"j",false);
+const erpT=()=>ERP.map(r=>({n:r[0],l:r[1],d:r[2],p:r[3]}));
+$("#cpErp").onclick=()=>loadCP(erpT(),"s",true);
+$("#goErp").onclick=()=>{loadCP(erpT(),"s",true);location.hash="#planning"};
+
+/* ---------- RISKS ---------- */
+let R=Array.isArray(S.risks)?S.risks:RDEF();
+let MM="both";
+const saveR=()=>{S.risks=R;save();renderProg()};
+function lint(r){
+const c1=r.p*r.g,has2=r.p2>0&&r.g2>0,c2=r.p2*r.g2,L=[];
+if(!r.t.trim())L.push(["e","Décris le risque : cause → événement → conséquence."]);
+if(!r.s)L.push(["e","Choisis une stratégie de traitement."]);
+if(!r.a.trim()||r.a.trim().length<12)L.push(["e","Action trop vague ou absente : lister un risque sans solution ne rapporte presque rien."]);
+if(!r.o.trim())L.push(["e","Pas de responsable : qui porte l'action ?"]);
+if(!has2)L.push(["e","Re-quantifie : note P' et G' après l'action."]);
+else{
+if(r.s!=="Accepter"&&c2>=c1)L.push(["e","La criticité n'a pas baissé : l'action ne sert à rien en l'état."]);
+if(r.s==="Réduire (prévention)"&&r.p2>=r.p)L.push(["e","La prévention doit faire baisser la probabilité."]);
+if(r.s==="Réduire (protection)"&&r.g2>=r.g)L.push(["e","La protection doit faire baisser la gravité."]);
+if(r.s==="Réduire (les deux)"&&(r.p2>=r.p||r.g2>=r.g))L.push(["e","« Les deux » : la probabilité et la gravité doivent baisser."]);
+if(r.s==="Transférer"&&r.g2>=r.g)L.push(["e","Le transfert doit réduire la gravité pour le projet."]);
+if(r.s==="Éviter"&&r.p2>1)L.push(["e","Éviter = supprimer la cause : la probabilité devrait tomber à 1."]);
+if(r.s==="Accepter"&&(r.p2!==r.p||r.g2!==r.g))L.push(["e","Accepter ne change pas les notes : P' et G' restent égaux à P et G."]);
+if(c2>=12)L.push(["e","Encore critique après action : ajoute une action ou escalade au sponsor."]);
+else if(c2>=8)L.push(["e","Encore important : prévois un plan de contingence avec un déclencheur."]);
+}
+if(r.s==="Accepter"&&c1>=8)L.push(["e","Accepter un risque important doit être justifié, avec réserve et contingence."]);
+if(!L.length)L.push(["g",`Complet : ${c1} → ${c2}, action, responsable et coût renseignés.`]);
+return L}
+const sel=(k,v,i,opts)=>`<select data-i="${i}" data-k="${k}" id="r${k}${i}">${opts}</select>`;
+const nOpts=(v,z)=>(z?`<option value="0" ${!v?"selected":""}>—</option>`:"")+[1,2,3,4].map(n=>`<option ${v===n?"selected":""}>${n}</option>`).join("");
+function badge(i){const r=R[i],c1=r.p*r.g,c2=r.p2*r.g2;return `<span class="zone z${zoneOf(c1)}">${c1}</span> → ${r.p2&&r.g2?`<span class="zone z${zoneOf(c2)}">${c2}</span>`:`<span class="zone" style="border:1px dashed var(--ko);color:var(--ko)">?</span>`}`}
+function renderCards(){
+$("#rCards").innerHTML=R.map((r,i)=>`<div class="rcard" id="rc${i}">
+<div class="top"><b>R${i+1}</b><input data-i="${i}" data-k="t" id="rt${i}" value="${esc(r.t)}" placeholder="Cause → événement → conséquence" aria-label="Description du risque R${i+1}"><span id="rb${i}" style="white-space:nowrap">${badge(i)}</span></div>
+<div class="rgrid">
+<label>Probabilité ${sel("p",r.p,i,nOpts(r.p))}</label>
+<label>Gravité ${sel("g",r.g,i,nOpts(r.g))}</label>
+<label style="grid-column:span 2">Stratégie ${sel("s",r.s,i,`<option value="">—</option>`+STRATS.map(s=>`<option ${r.s===s?"selected":""}>${s}</option>`).join(""))}</label>
+</div>
+<label class="small mute" style="display:block;margin-top:8px" for="ra${i}">Action concrète</label><textarea data-i="${i}" data-k="a" id="ra${i}" placeholder="Quoi, comment, quand">${esc(r.a)}</textarea>
+<div class="rgrid">
+<label>Responsable <input data-i="${i}" data-k="o" id="ro${i}" value="${esc(r.o)}"></label>
+<label>Coût (k€) <input data-i="${i}" data-k="c" id="rco${i}" inputmode="decimal" value="${r.c||""}"></label>
+<label>P' après ${sel("p2",r.p2,i,nOpts(r.p2,1))}</label>
+<label>G' après ${sel("g2",r.g2,i,nOpts(r.g2,1))}</label>
+</div>
+<ul class="lint" id="rl${i}">${lint(r).map(l=>`<li class="${l[0]}">${l[0]==="g"?"✓":"•"} ${esc(l[1])}</li>`).join("")}</ul>
+<div class="row" style="justify-content:flex-end;margin-top:6px"><button data-del="${i}" class="small" style="min-height:40px">Supprimer</button></div>
+</div>`).join("");
+renderMat()}
+function upd(i){$("#rb"+i).innerHTML=badge(i);$("#rl"+i).innerHTML=lint(R[i]).map(l=>`<li class="${l[0]}">${l[0]==="g"?"✓":"•"} ${esc(l[1])}</li>`).join("");renderMat();saveR()}
+$("#rCards").addEventListener("input",e=>{const el=e.target,i=+el.dataset.i,k=el.dataset.k;if(!k||!R[i])return;
+let v=el.value;if(["p","g","p2","g2"].includes(k))v=+v;if(k==="c")v=parseFloat(String(v).replace(",","."))||0;R[i][k]=v;upd(i)});
+$("#rCards").addEventListener("click",e=>{const b=e.target.closest("[data-del]");if(!b)return;R.splice(+b.dataset.del,1);renderCards();saveR()});
+$("#mMode").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;MM=b.dataset.m;$("#mMode").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));renderMat()});
+$("#rAdd").onclick=()=>{R.push({t:"",p:2,g:2,s:"",a:"",o:"",c:0,p2:0,g2:0});renderCards();saveR();const el=$("#rt"+(R.length-1));if(el){el.scrollIntoView({behavior:"smooth",block:"center"});el.focus({preventScroll:true})}};
+$("#rFull").onclick=()=>{R=JSON.parse(JSON.stringify(RFULL));renderCards();saveR()};
+$("#rEmpty").onclick=()=>{R=[{t:"",p:2,g:2,s:"",a:"",o:"",c:0,p2:0,g2:0}];renderCards();saveR()};
+$("#goRisk").onclick=()=>{R=JSON.parse(JSON.stringify(RFULL));renderCards();saveR();location.hash="#risques"};
+$("#rCopy").onclick=()=>{const h="ID\tRisque\tP\tG\tC\tStratégie\tAction\tResponsable\tCoût k€\tP'\tG'\tC'";
+const txt=[h,...R.map((r,i)=>[`R${i+1}`,r.t,r.p,r.g,r.p*r.g,r.s,r.a,r.o,r.c,r.p2,r.g2,r.p2*r.g2].join("\t"))].join("\n");
+try{navigator.clipboard.writeText(txt).then(()=>$("#rCopyMsg").textContent="Tableau copié, colle-le dans un tableur ou un doc.",()=>$("#rCopyMsg").textContent="Copie refusée par le navigateur.")}catch(err){$("#rCopyMsg").textContent="Copie indisponible ici."}};
+function renderMat(){
+renderSum();const s=$("#mat");if(!s)return;const W=s.clientWidth,H=s.clientHeight;if(!W||!H)return;
+const ml=34,mb=34,mt=6,mr=6,cw=(W-ml-mr)/4,ch=(H-mt-mb)/4;
+let g="";
+for(let p=1;p<=4;p++)for(let gv=1;gv<=4;gv++){const x=ml+(p-1)*cw,y=mt+(4-gv)*ch,z=zoneOf(p*gv);
+g+=`<rect x="${x+1}" y="${y+1}" width="${cw-2}" height="${ch-2}" rx="6" fill="${ZC[z]}" fill-opacity="${MM==="before"||MM==="both"?.3:.3}"/><text x="${x+cw-6}" y="${y+16}" text-anchor="end" font-size="13" fill="rgba(238,241,255,.55)" style="stroke:none">${p*gv}</text>`}
+for(let k=1;k<=4;k++){g+=`<text x="${ml+(k-.5)*cw}" y="${H-mb+18}" text-anchor="middle" font-size="13" fill="#aab4dc">${k}</text><text x="${ml-10}" y="${mt+(4-k+.5)*ch+5}" text-anchor="middle" font-size="13" fill="#aab4dc">${k}</text>`}
+g+=`<text x="${ml+2*cw}" y="${H-4}" text-anchor="middle" font-size="13" fill="#aab4dc">Probabilité →</text><text transform="translate(12,${mt+2*ch}) rotate(-90)" text-anchor="middle" font-size="13" fill="#aab4dc">Gravité →</text>`;
+const cell={},pts=[];
+const place=(p,gv,key)=>{const id=p+"-"+gv;cell[id]=(cell[id]||0);const k=cell[id]++;const per=Math.max(1,Math.floor((cw-8)/40));const col=k%per,row=Math.floor(k/per);
+return{x:ml+(p-1)*cw+6+col*40+18,y:mt+(4-gv)*ch+24+row*24}};
+R.forEach((r,i)=>{const o={i};if(MM!=="after")o.a=place(r.p,r.g);if(MM!=="before"&&r.p2&&r.g2)o.b=place(r.p2,r.g2);pts.push(o)});
+let ar="",ch2="";
+pts.forEach(o=>{if(o.a&&o.b&&(o.a.x!==o.b.x||o.a.y!==o.b.y))ar+=`<line x1="${o.a.x}" y1="${o.a.y}" x2="${o.b.x}" y2="${o.b.y}" stroke="#eef1ff" stroke-width="1.6" stroke-opacity=".7" marker-end="url(#ma)"/>`;
+if(o.a)ch2+=`<rect x="${o.a.x-17}" y="${o.a.y-10}" width="34" height="20" rx="10" fill="#0b1433" stroke="#eef1ff" stroke-width="1.4"/><text x="${o.a.x}" y="${o.a.y+5}" text-anchor="middle" font-size="13" font-weight="700" fill="#eef1ff" style="stroke:none">R${o.i+1}</text>`;
+if(o.b)ch2+=`<rect x="${o.b.x-17}" y="${o.b.y-10}" width="34" height="20" rx="10" fill="#eef1ff"/><text x="${o.b.x}" y="${o.b.y+5}" text-anchor="middle" font-size="13" font-weight="700" fill="#0b1433" style="stroke:none">R${o.i+1}</text>`});
+s.innerHTML=`<defs><marker id="ma" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#eef1ff"/></marker></defs>${g}${ar}${ch2}`;
+}
+function renderSum(){const cnt=f=>{const z=[0,0,0,0,0];R.forEach(r=>{const v=f(r);if(v)z[zoneOf(v)]++});return z};
+const zb=cnt(r=>r.p*r.g),za=cnt(r=>r.p2*r.g2),cost=R.reduce((a,r)=>a+(+r.c||0),0),miss=R.filter(r=>!(r.p2&&r.g2)).length;
+$("#rSum").innerHTML=`<div><span class="small mute">Critiques + importants</span><br><b>${zb[4]+zb[3]} → ${za[4]+za[3]}</b></div><div><span class="small mute">Coût des actions</span><br><b>${cost} k€</b><span class="small mute"> / 40 k€ de réserve</span></div><div><span class="small mute">Non re-notés</span><br><b style="color:${miss?"var(--ko)":"var(--ok)"}">${miss}</b></div><div><span class="small mute">Contour : avant · plein : après</span></div>`}
+const matRO=new ResizeObserver(()=>renderMat());matRO.observe($("#mat"));
+renderCards();
+
+/* ---------- TIMER ---------- */
+const TM={left:7200,run:false,h:null};
+const fmt=x=>`${Math.floor(x/3600)}:${String(Math.floor(x%3600/60)).padStart(2,"0")}:${String(x%60).padStart(2,"0")}`;
+function tmDraw(){$("#tm").textContent=fmt(TM.left);const el=(7200-TM.left)/60;$("#tmBar").style.width=((7200-TM.left)/72)+"%";
+let t=0,ph="Terminé : pose le stylo";for(const s of SEGS){if(el<t+s[0]){ph=`${s[1]} · jusqu'à ${t+s[0]} min`;break}t+=s[0]}
+$("#tmPhase").textContent=TM.run||TM.left<7200?ph:"Prêt quand tu l'es"}
+$("#tmGo").onclick=()=>{if(TM.run){clearInterval(TM.h);TM.run=false;$("#tmGo").textContent="Reprendre"}else{TM.run=true;$("#tmGo").textContent="Pause";TM.h=setInterval(()=>{TM.left=Math.max(0,TM.left-1);if(!TM.left){clearInterval(TM.h);TM.run=false;$("#tmGo").textContent="Démarrer"}tmDraw()},1000)}tmDraw()};
+$("#tmReset").onclick=()=>{clearInterval(TM.h);TM.run=false;TM.left=7200;$("#tmGo").textContent="Démarrer";tmDraw()};
+
+/* ---------- PROGRESS + ROUTER ---------- */
+function renderProg(){
+const known=FC.filter((c,i)=>S.known[i]===1).length,ck=Object.values(S.chk).filter(Boolean).length,full=R.filter(r=>lint(r)[0][0]==="g").length;
+$("#prog").innerHTML=`<a class="tile" href="#cartes"><b>${known}/${FC.length}</b><span>flashcards sues</span></a><a class="tile" href="#quiz"><b>${S.best!=null?S.best+" %":"—"}</b><span>meilleur score au quiz complet</span></a><a class="tile" href="#planning"><b>${S.cpOk}</b><span>réseaux réussis sans aide</span></a><a class="tile" href="#risques"><b>${full}/${R.length}</b><span>risques complets dans ton registre</span></a><a class="tile" href="#plan"><b>${ck}/${CHK1.length+CHK2.length}</b><span>points de la checklist cochés</span></a>`}
+const VIEWS=["plan","cours","cartes","quiz","planning","risques","examen"];
+function route(){const h=location.hash.slice(1),v=VIEWS.includes(h)?h:"plan";
+VIEWS.forEach(x=>$("#v-"+x).classList.toggle("on",x===v));
+document.querySelectorAll("#tabs a").forEach(a=>{const on=a.getAttribute("href")==="#"+v;a.classList.toggle("on",on);if(on)a.scrollIntoView({block:"nearest",inline:"nearest"})});
+window.scrollTo(0,0);
+if(v==="planning"){sizeNet();requestAnimationFrame(drawNet)}if(v==="risques")requestAnimationFrame(renderMat)}
+window.addEventListener("hashchange",route);
+loadCP(gen(),"j",false);renderFC();renderProg();tmDraw();route();
+}
+</script>
+<script>
+if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{})})}
+</script>
+</body>
+</html>
